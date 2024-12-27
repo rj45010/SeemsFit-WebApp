@@ -1,0 +1,101 @@
+.create-plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border-radius: 25%;
+  border-width: 1px;
+  color: rgb(125, 124, 124);
+}
+
+.create-plan-td {
+  padding: 10px;
+  text-align: left;
+}
+
+.create-plan-td input[type="text"], td input[type="number"] {
+  width: auto;
+  max-width: 150px;
+  border: 0.6px solid black;
+  border-radius: 6px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.add-exercise {
+  color: white;
+  background-color: #007bff;
+  font-size:medium;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 4px;
+  margin-bottom: 6px;
+  box-shadow: 2px 6px 8px black;
+}
+
+.delete-button {
+  font-size: 0.9em;
+  color: white;
+  background-color: #c82333;
+  box-shadow: 1px 2px 10px black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.day-container {
+  margin-bottom: 10px;
+}
+
+.day-header {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 6px;
+  margin-top: 24px;
+}
+
+.day-label-input {
+  border: 0.6px solid black;
+  border-radius: 6px;
+  text-align: center;
+  font-size: medium;
+  font-weight: lighter;
+}
+
+@media (max-width: 1199px) {
+  .create-plan-td {
+    display: block; 
+    width: 100%;
+  }
+
+  .create-plan-td input[type="text"],
+  .create-plan-td input[type="number"] {
+    width: 100%;
+  }
+}
+
+.save-button {
+  display: block;
+  font-size:medium;
+  margin: 20px auto; 
+  padding: 10px; 
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 33px;
+  box-shadow: 2px 6px 8px black;
+}
+
+.plan-name-input {
+  width: auto;
+  border: 0.6px solid black;
+  border-radius: 6px;
+  padding: 5px;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 24px;
+}
+

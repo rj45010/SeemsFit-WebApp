@@ -1,0 +1,31 @@
+.loginbg {
+  background: linear-gradient(300deg, #1d8364 35%, #104e63 65%, #1d2b60 100%);
+  background-size: 180% 180%;
+  animation: gradient-animation 6s linear infinite;
+  height: 100vh;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.login_form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 430px) {
+  .loginbg {
+    background-size: 160% 160%; 
+    animation: gradient-animation 4s linear infinite;
+  }
+}

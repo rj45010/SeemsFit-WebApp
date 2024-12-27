@@ -1,0 +1,85 @@
+.gradient-background {
+  background: linear-gradient(300deg, #1d8364 35%, #104e63 65%, #1d2b60 100%);
+  background-size: 180% 180%;
+  animation: gradient-animation 6s linear infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.hdisplay {
+  font-weight: bold;
+  font-size: 33px;
+}
+
+.bg-body {
+  width: auto; 
+  height: auto;
+  border-radius: 21px 21px 21px 21px;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  padding-bottom: 24px;
+}
+
+.bg-body li {
+  font-size: 20px;
+  list-style-type: square;
+  padding: 0 0 6px 0;
+  margin-left: 15px;
+  text-align: left;
+}
+
+@media (max-width: 991px) {
+  #Hero .row {
+    flex-direction: column;
+  }
+
+  #Hero .image-container {
+    order: 2;
+  }
+
+  #Hero .text-content {
+    order: 1;
+  }
+}
+
+@media (max-width: 602px) {
+  #key-benefits .benefits {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+
+  #key-benefits ul {
+    padding-left: 20px;
+    margin: 0 auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  #key-benefits li {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .gradient-background {
+    background-size: 160% 160%; 
+    animation: gradient-animation 4s linear infinite;
+  }
+}
+
+.welcome {
+  text-align: start;
+}

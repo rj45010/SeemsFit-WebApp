@@ -1,0 +1,36 @@
+.container-footer {
+  width: 100%;
+  padding: 0 20px;
+  height: auto;
+  background-color: #1a1e21;
+  bottom: 0;
+}
+
+.home-footer {
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  height: 100%;
+  background-color: #1a1e21;
+}
+
+.footer-content {
+  text-align: center;
+  color: white;
+}
+
+.footer-text {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.instagram-icon {
+  font-size: 2rem; /* Larger icon size */
+  color: white;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.footer-text:first-child {
+  margin-top: 5px; /* Adjust spacing between Instagram icon and text */
+}

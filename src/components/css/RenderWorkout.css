@@ -1,0 +1,18 @@
+table {
+  width: 60%;
+  border: solid;
+  table-layout:fixed;
+}
+
+@media (max-width:770px) {
+  table {
+    width: 100%;
+  }
+}
+
+.heading {
+  font-family: "Funnel Display", serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}

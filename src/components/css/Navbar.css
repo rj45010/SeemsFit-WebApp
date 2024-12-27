@@ -1,0 +1,78 @@
+.fixed {
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  color: white;
+  width: 100%;
+  z-index: 6;
+  padding: 0;
+  top: 0;
+  left: 0;
+  background-color: #222529;
+  transition: transform 0.3s ease;
+  box-shadow: 0px 10px 12px #1a1e21;
+}
+
+/* Dropdown menu styles */
+.dropdown {
+  left: 0;
+  right: 0;
+  background-color: #1a1e21;
+  box-shadow: 0px 10px 12px #1a1e21;
+  padding: 10px 0;
+  z-index: 5;
+  text-align: center;
+  display: none;
+}
+
+/* Show dropdown when it's open */
+.dropdown.open {
+  display: block;
+}
+
+.dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown ul li {
+  text-align: center;
+}
+
+.dropdown ul li a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+}
+
+/* Toggle button styles */
+.toggle-button {
+  position: absolute;
+  left: 1.5rem;
+  font-size: 1.5rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+@media (max-width: 430px) {
+ .toggle-button {
+  padding-left: 0;
+ }
+}
+
+.logo {
+  text-align: center;
+  flex: 1;
+}
+
+.logo-image {
+  max-width: 250px;
+  height: auto;
+}

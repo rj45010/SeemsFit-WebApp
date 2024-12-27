@@ -1,0 +1,14 @@
+.google-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.google-login-container span {
+  font-weight: bold;
+  color: #444;
+}

@@ -1,0 +1,44 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Make sure the body takes full height */
+  margin: 0;
+}
+
+.container {
+  flex: 1; /* Makes the content flexible and fills available space */
+}
+
+.div {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+}
+
+.tagline {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: center;
+  margin-bottom: -33px;
+}
+
+.detail {
+  text-align: justify;
+  width: 100%;
+  margin: 0;
+}
+
+.detail::after {
+  display: inline-block;
+  width: 100%;
+}
+
+/* Footer styles, if needed */
+footer {
+  margin-top: auto; /* This will push the footer to the bottom */
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
