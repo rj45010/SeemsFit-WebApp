@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './css/CreatePlan.css';
+import {useTheme} from './ThemeProvider';
 
 const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExerciseChange, handleAddExercise, handleDeleteExercise }) => {
   return (
@@ -50,7 +51,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
               <td className="create-plan-td">
                 <input
                   type="number"
-                  placeholder="Weight"
+                  placeholder="Weight (KG)"
                   value={exercise.weight}
                   onChange={(e) => handleExerciseChange(e, index, day, 'weight')}
                 />
@@ -75,6 +76,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
 
 
 const CreatePlan = () => {
+  const { theme } = useTheme();
   const initialExercises = [
     { name: '', sets: '', reps: '', weight: '' },
   ];
@@ -187,10 +189,11 @@ const CreatePlan = () => {
           className="container d-flex flex-column justify-content-center align-items-center"
           style={{ height: "calc(100vh - 250px)" }}
         >
-          <p className="text-center mb-3">
+          <p className="text-center mb-3"
+          style={{ color: theme === "light" ? "black" : "white" }}>
             Log in to create a workout plan.
           </p>
-          <Link to="/login" className="btn btn-outline-light">
+          <Link to="/login" className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"}`}>
             Go to Login
           </Link>
         </div>

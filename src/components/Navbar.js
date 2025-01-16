@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import "./css/Navbar.css";
 import logo from '../assests/IMG_3205.png';
 import { auth } from "./firebase";
+import { useTheme } from './ThemeProvider';
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const toggleDropdown = (e) => {
     e.stopPropagation();
@@ -35,6 +37,10 @@ const Header = () => {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+  }, [theme]);
 
   return (
     <div className="fixed">
@@ -84,6 +90,23 @@ const Header = () => {
               </Link>
             </li>
           )}
+          <li>
+          <button
+              className={`toggle-button-theme ${theme}`}
+              onClick={toggleTheme}
+              aria-label="Toggle Theme"
+            >
+              {theme === "light" ? (
+                <>
+                  <i className="fas fa-sun"></i> Theme Light
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-moon"></i> Theme Dark
+                </>
+              )}
+            </button>
+          </li>
         </ul>
       </div>
     </div>

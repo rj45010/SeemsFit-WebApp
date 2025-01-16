@@ -56,7 +56,17 @@ const DownloadPDFButton = ({ targetId, fileName }) => {
   };
 
   return (
-    <button className="pdf-button btn-primary" onClick={downloadPDF}>
+    <button
+      className="pdf-button btn-primary"
+      onClick={downloadPDF}
+      style={{
+        backgroundColor: '#007bff',
+        color: '#fff',             
+        border: 'none',            
+        padding: '10px 20px',      
+        borderRadius: '4px',       
+        cursor: 'pointer',         
+      }}>
       Download Workout PDF
     </button>
   );

@@ -4,9 +4,9 @@ import '../css/SeePlans.css';
 
 const Dropdown = () => {
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
-  const [activeSubmenu, setActiveSubmenu] = useState(null); // Store the active submenu
+  const [activeSubmenu, setActiveSubmenu] = useState(null); 
 
-  const dropdownRef = useRef(null); // Create a ref for the dropdown container
+  const dropdownRef = useRef(null);
 
   // Toggle main menu
   const toggleMainMenu = () => {
@@ -16,7 +16,7 @@ const Dropdown = () => {
 
   // Handle submenu toggling
   const toggleSubmenu = (submenuId) => {
-    setActiveSubmenu(prevState => (prevState === submenuId ? null : submenuId)); // Close or open the submenu
+    setActiveSubmenu(prevState => (prevState === submenuId ? null : submenuId));
     console.log("Active Submenu: ", submenuId);
   };
 
@@ -24,14 +24,13 @@ const Dropdown = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsMainMenuOpen(false); // Close the menu if clicked outside
-        setActiveSubmenu(null); // Close all submenus
+        setIsMainMenuOpen(false);
+        setActiveSubmenu(null);
       }
     };
 
     document.addEventListener('click', handleClickOutside);
 
-    // Clean up the event listener when the component is unmounted
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };

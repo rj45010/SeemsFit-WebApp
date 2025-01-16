@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { PrivateRoute } from './utils/authUtils';
 import HeaderWithSidebar from './components/Navbar';
 import EmptyHeader from './components/EmptyHeader';
@@ -31,35 +32,49 @@ import PPLWorkout2 from './components/6day/PPL6day';
 import HomeLoggedIn from './components/HomeLoggedinPage';
 import ForgotPassword from "./components/ForgotPassword";
 
-// Define routes that don't require the footer to be displayed
 const hideFooterRoutes = [
-  '/login',
-  '/get-started',
-  '/forgot-password',
+  '/my-plan',
 ];
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      setIsAuthChecked(true);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (!isAuthChecked) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Router>
       <div>
         <ScrollToTop />
         <HeaderWithSidebar />
         <EmptyHeader />
-        <Content />
+        <Content isLoggedIn={isLoggedIn} />
         <ToastContainer />
       </div>
     </Router>
   );
 }
 
-const Content = () => {
+const Content = ({ isLoggedIn }) => {
   const location = useLocation();
   const shouldRenderFooter = !hideFooterRoutes.includes(location.pathname);
 
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={isLoggedIn ? <HomeLoggedIn /> : <Home />} />
         <Route path="/home" element={<PrivateRoute><HomeLoggedIn /></PrivateRoute>} />
         <Route path="/features" element={<Features />} />
         <Route path="/about-us" element={<AboutUs />} />
@@ -84,8 +99,6 @@ const Content = () => {
         <Route path='/ppl3' element={<PPLWorkout1 />} />
         <Route path='/ppl6day' element={<PPLWorkout2 />} />
       </Routes>
-
-      {/* Footer will be rendered unless we're on the routes where it should be hidden */}
       {shouldRenderFooter && <Footer />}
     </div>
   );

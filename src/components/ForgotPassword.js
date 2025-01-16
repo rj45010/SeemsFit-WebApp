@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { auth } from "./firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
+import {useTheme} from './ThemeProvider';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const { theme } = useTheme();
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
@@ -27,8 +29,8 @@ const ForgotPassword = () => {
         <div className="login_form">
           <div className="col-12 col-md-9 col-lg-7 col-xl-6">
             <div className="card" style={{ borderRadius: "2rem" }}>
-              <div className="card-body p-5">
-                <h3>Forgot Password</h3>
+              <div className="card-body p-5 text-center">
+                <h3 className="mb-3">Forgot Password</h3>
                 <form onSubmit={handlePasswordReset}>
                   <div className="form-outline mb-4">
                     <input
@@ -43,7 +45,7 @@ const ForgotPassword = () => {
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"
-                      className="btn btn-outline-light btn-lg px-4 me-md-2"
+                      className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"} btn-lg px-4 me-md-2`}
                     >
                       Send Reset Email
                     </button>

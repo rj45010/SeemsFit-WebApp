@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './css/Home.css';
-import workoutImage from '/Users/rahul/seemsfit1.0/src/assests/workout-tracker-printable.PNG';
+import workoutImage from '../assests/workout-tracker-printable.PNG';
+import {useTheme} from './ThemeProvider';
 
 const Home = () => {
+
+  const { theme } = useTheme();
+
   return (
     <div>
       {/* Hero Section */}
@@ -21,15 +25,27 @@ const Home = () => {
               />
             </div>
             <div className="col-lg-6">
-              <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-                Welcome
+            <h1
+                className="display-5 fw-bold lh-1 mb-3 text-start"
+                style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}
+                >Welcome
               </h1>
-              <p className="lead">Let's get started and get growing.</p>
+              <p 
+                className="lead"
+                style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}
+                >Let's get started and get growing.
+              </p>
               <div className="d-grid gap-2 d-md-flex justify-content-md-start pb-5">
-                <Link to="/login" className="btn btn-dark btn-lg px-4 me-md-2">
+                <Link 
+                  to="/login" 
+                  className={`btn ${theme === "dark" ? "btn-dark" : "btn-light"} btn-lg px-4 me-md-2`}
+                  >
                   Log in
                 </Link>
-                <Link to="/get-started" className="btn btn-outline-dark btn-lg px-4">
+                <Link 
+                  to="/get-started" 
+                  className={`btn ${theme === "dark" ? "btn-outline-dark" : "btn-outline-light"} btn-lg px-4 me-md-2`}
+                  >
                   Get Started
                 </Link>
               </div> 

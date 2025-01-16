@@ -1,12 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { auth, db, doc, getDoc } from './firebase';
 import './css/Home.css';
-import workoutImage from '/Users/rahul/seemsfit1.0/src/assests/workout-tracker-printable.PNG';
+import workoutImage from '../assests/workout-tracker-printable.PNG';
+import {useTheme} from './ThemeProvider';
 
 const HomeLoggedIn = () => {
+  const [firstName, setFirstName] = useState("");
+  const { theme} = useTheme();
+
+  useEffect(() => {
+    const fetchUserFirstName = async () => {
+      if (auth.currentUser) {
+        try {
+          // Access the user's document from the 'Users' collection
+          const userDoc = await getDoc(doc(db, 'Users', auth.currentUser.uid));
+          if (userDoc.exists()) {
+            console.log("User document data:", userDoc.data());
+            setFirstName(userDoc.data().firstName || ""); 
+          } else {
+            console.warn("User document does not exist.");
+            setFirstName(""); 
+          }
+        } catch (error) {
+          console.error("Error fetching user's first name: ", error);
+          setFirstName(""); 
+        }
+      }
+    };
+
+    fetchUserFirstName();
+  }, []); 
+
   return (
     <div>
       {/* Hero Section */}
-      <section id="Hero" className="gradient-background">
+      <section id="Hero" className="gradient-background position-relative">
         <div className="container col-xxl-8 px-4 pt-5">
           <div className="row flex-lg-row-reverse align-items-center g-5">
             <div className="col-10 col-sm-8 col-lg-6 image-container">
@@ -20,10 +48,16 @@ const HomeLoggedIn = () => {
               />
             </div>
             <div className="col-lg-6">
-              <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3 welcome">
-                Welcome
+              <h1
+                className="display-5 fw-bold lh-1 mb-3 text-start"
+                style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}
+                >Welcome {firstName}
               </h1>
-              <p className="lead">Let's get started and get growing.</p>
+              <p 
+                className="lead"
+                style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}
+                >Let's get started and get growing.
+              </p>
             </div>
           </div>
         </div>

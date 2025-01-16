@@ -69,10 +69,19 @@
 
 .logo {
   text-align: center;
-  flex: 1;
 }
 
 .logo-image {
-  max-width: 250px;
+  max-width: 240px;
   height: auto;
+}
+
+.toggle-button-theme {
+  right: 1.5rem;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px;
 }

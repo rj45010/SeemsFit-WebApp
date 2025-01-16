@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { db, collection, getDocs, auth, deleteDoc, doc } from './firebase'; 
+import { db, collection, getDocs, auth, deleteDoc, doc, updateDoc } from './firebase';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './css/MyPlans.css';
+import {useTheme} from './ThemeProvider';
 
 const MyPlans = () => {
   const [plans, setPlans] = useState([]);
@@ -11,42 +12,75 @@ const MyPlans = () => {
   const [selectedPlanId, setSelectedPlanId] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
-    const checkAuth = () => {
-      setIsLoggedIn(!!auth.currentUser);
-    };
-
-    auth.onAuthStateChanged(checkAuth);
-  }, []);
-
-  useEffect(() => {
-    const fetchPlans = async () => {
-      if (!auth.currentUser) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const querySnapshot = await getDocs(collection(db, 'plans'));
-        const userPlans = querySnapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .filter((plan) => plan.userId === auth.currentUser.uid);
-
-        console.log("Fetched Plans: ", userPlans);
-        setPlans(userPlans);
-      } catch (error) {
-        console.error("Error fetching plans: ", error);
-      } finally {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user);
+      if (user) {
+        fetchPlans(user.uid);
+      } else {
+        setPlans([]);
         setLoading(false);
       }
-    };
+    });
 
-    fetchPlans();
+    return () => unsubscribe(); 
   }, []);
+
+  const fetchPlans = async (userId) => {
+    try {
+      setLoading(true);
+      const querySnapshot = await getDocs(collection(db, 'plans'));
+      const userPlans = querySnapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .filter((plan) => plan.userId === userId);
+
+      setPlans(userPlans);
+    } catch (error) {
+      console.error("Error fetching plans: ", error);
+      toast.error("Failed to fetch plans.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePlanSelect = (e) => {
     setSelectedPlanId(e.target.value);
+  };
+
+  const handleWeightChange = (day, exerciseIndex, newWeight) => {
+    setPlans((prevPlans) =>
+      prevPlans.map((plan) =>
+        plan.id === selectedPlanId
+          ? {
+              ...plan,
+              workoutPlan: {
+                ...plan.workoutPlan,
+                [day]: plan.workoutPlan[day].map((exercise, idx) =>
+                  idx === exerciseIndex
+                    ? { ...exercise, weight: newWeight }
+                    : exercise
+                ),
+              },
+            }
+          : plan
+      )
+    );
+  };
+
+  const saveChanges = async () => {
+    const selectedPlan = plans.find((plan) => plan.id === selectedPlanId);
+    if (selectedPlan) {
+      try {
+        const planRef = doc(db, 'plans', selectedPlan.id);
+        await updateDoc(planRef, { workoutPlan: selectedPlan.workoutPlan });
+        toast.success("Workout plan updated successfully!", { autoClose: 2000 });
+      } catch (error) {
+        console.error("Error updating plan: ", error);
+        toast.error("Failed to save changes.");
+      }
+    }
   };
 
   const handleDeletePlan = async (planId) => {
@@ -95,22 +129,22 @@ const MyPlans = () => {
 
   const selectedPlan = plans.find((plan) => plan.id === selectedPlanId);
 
-  // Days of the week in correct order
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
   if (!isLoggedIn) {
     return (
       <div>
-        <h1 className="h1 text-center mt-5">My Plans</h1>
+        <h1 className="h1 text-center mt-5" style={{ color: theme === "light" ? "black" : "white" }}>My Plans</h1>
         <div
           id="exercise-container"
           className="container d-flex flex-column justify-content-center align-items-center"
           style={{ height: "calc(100vh - 250px)" }}
         >
-          <p className="text-center mb-3">
+          <p className="text-center mb-3"
+          style={{ color: theme === "light" ? "black" : "white" }}>
             Log in to see saved workout plans.
           </p>
-          <Link to="/login" className="btn btn-outline-light">
+          <Link to="/login" className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"}`}>
             Go to Login
           </Link>
         </div>
@@ -120,9 +154,9 @@ const MyPlans = () => {
 
   return (
     <div id="my-plans-container">
-      <h1>My Workout Plans</h1>
+      {/* <h1 style={{ color: theme === "light" ? "black" : "white" }}>My Workout Plans</h1> */}
       {loading ? (
-        <p>Loading plans...</p>
+        <p style={{ color: theme === "light" ? "black" : "white" }}>Loading plans...</p>
       ) : (
         <>
           <div className="custom-dropdown">
@@ -134,7 +168,6 @@ const MyPlans = () => {
               <option value="" disabled>Your Saved Plans ▼</option>
               {plans.map((plan) => (
                 <option key={plan.id} value={plan.id}>
-                  {/* EDIT: Display creation date in the dropdown */}
                   {plan.planName} - {plan.createdAt ? new Date(plan.createdAt).toLocaleDateString() : "Unknown"}
                 </option>
               ))}
@@ -143,9 +176,8 @@ const MyPlans = () => {
 
           {selectedPlan && (
             <div className="plan-container mt-4">
-              <h2>{selectedPlan.planName}</h2>
+              <h2 style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}>{selectedPlan.planName}</h2>
               {daysOfWeek.map((day) => {
-                // Check if there's a plan for this day
                 const dayPlan = selectedPlan.workoutPlan[day];
                 if (dayPlan && dayPlan.length > 0) {
                   return (
@@ -160,7 +192,7 @@ const MyPlans = () => {
                               <th>Exercise Name</th>
                               <th>Sets</th>
                               <th>Reps</th>
-                              <th>Weight</th>
+                              <th>Weight (KG)</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -169,7 +201,16 @@ const MyPlans = () => {
                                 <td>{exercise.name}</td>
                                 <td>{exercise.sets}</td>
                                 <td>{exercise.reps}</td>
-                                <td>{exercise.weight}</td>
+                                <td>
+                                  <div className='d-flex justify-content-center'>
+                                  <input
+                                    type="number"
+                                    value={exercise.weight || ''}
+                                    onChange={(e) => handleWeightChange(day, idx, e.target.value)}
+                                    className="editable-weight-input form-control"
+                                  />
+                                  </div>
+                                </td>
                               </tr>
                             ))}
                           </tbody>
@@ -180,15 +221,22 @@ const MyPlans = () => {
                 }
                 return null;
               })}
-              <button className="delete-plan-button" onClick={() => handleDeletePlan(selectedPlan.id)}>
-                Delete Plan
-              </button>
+              <div className='row mt-3'>
+                <div className='col'>
+                  <button className="edit-button" onClick={saveChanges}>
+                    Save Changes
+                  </button>
+                </div>
+                <div className='col'>
+                  <button className="del-button" onClick={() => handleDeletePlan(selectedPlan.id)}>
+                    Delete Plan
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </>
       )}
-
-      {/* Overlay for background blur */}
       {showOverlay && <div className="overlay active"></div>}
     </div>
   );

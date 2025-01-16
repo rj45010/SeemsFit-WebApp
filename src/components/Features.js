@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
+import {useTheme} from './ThemeProvider';
 
 const Features = () => {
+  const {theme} = useTheme();
   return (
     <section id="content">
       <div className="container py-4">
@@ -11,7 +13,7 @@ const Features = () => {
             <p className="col-md-8 fs-4">
               Allows you to personalize your fitness routines by selecting exercises, adjusting sets, reps, and rest intervals.
             </p>
-            <Link to="/create-plan" className="btn btn-light btn-lg" type="button">
+            <Link to="/create-plan" className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"} btn-lg`} type="button">
               Start Journey
             </Link>
           </div>
@@ -36,7 +38,7 @@ const Features = () => {
               <p>
                 Track your progress and review previous workout plans. This feature helps monitor achievements, set new goals, and stay motivated by providing a comprehensive history of your fitness journey.
               </p>
-              <Link to="/my-plan" className="btn btn-outline-light" type="button">
+              <Link to="/my-plan" className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"} btn-lg`} type="button">
                 My Plans
               </Link>
             </div>

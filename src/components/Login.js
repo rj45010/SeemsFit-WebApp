@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import './css/Login.css';
 import { signInWithEmail } from '../utils/authUtils'; // Import the function
 import SignInwithGoogle from './SignInWithGoogle';
+import {useTheme} from './ThemeProvider';
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { theme } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +28,10 @@ const Login = () => {
       <div className="container pt-5">
         <div className="login_form">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-            <div className="card bg-dark text-white" style={{ borderRadius: '3rem' }}>
+            <div className="card text-white" style={{ borderRadius: '3rem' }}>
               <div className="card-body py-5 text-center">
                 <div>
-                  <p className="text-white-50 mb-2 pt-2">Please enter your login and password!</p>
+                  <p className="text-50 mb-2 pt-2" style={{ color: theme === 'dark' ? 'white' : 'black'}}>Please enter your login and password!</p>
                   <br />
                   {error && (
                     <div className="alert alert-danger" role="alert">
@@ -59,13 +61,16 @@ const Login = () => {
                   </div>
 
                   <p className="small">
-                    <a className="text-white-50" href="/forgot-password">Forgot password?</a>
+                    <a className="text-50" 
+                    style={{ color: theme === "light" ? "black" : "white" }}
+                    href="/forgot-password">
+                      Forgot password?</a>
                   </p>
 
                   <button
                     data-mdb-button-init
                     data-mdb-ripple-init
-                    className="btn btn-outline-light btn-lg mb-3"
+                    className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"} btn-lg mb-3`}
                     type="submit"
                     onClick={handleSubmit}
                   >
@@ -74,8 +79,13 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <p>Don't have an account? &nbsp;
-                    <Link to="/get-started" className="text-white-50 fw-bold">Create New</Link>
+                  <p style={{ color: theme === 'dark' ? 'white' : 'black'}}>Don't have an account? &nbsp;
+                    <Link 
+                      to="/get-started" 
+                      className="fw-bold"
+                      style={{ color: theme === 'dark' ? 'white' : 'black'}}>
+                        Create New
+                      </Link>
                   </p>
                   <SignInwithGoogle />
                 </div>
