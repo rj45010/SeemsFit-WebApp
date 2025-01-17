@@ -69,6 +69,11 @@ const MyPlans = () => {
     );
   };
 
+  const handleInputResize = (e) => {
+    e.target.style.height = "auto"; // Reset height
+    e.target.style.height = `${e.target.scrollHeight}px`; // Set to scroll height
+  };
+
   const saveChanges = async () => {
     const selectedPlan = plans.find((plan) => plan.id === selectedPlanId);
     if (selectedPlan) {
@@ -96,6 +101,7 @@ const MyPlans = () => {
                 await deleteDoc(doc(db, 'plans', planId));
                 setPlans(plans.filter((plan) => plan.id !== planId));
                 toast.success("Plan deleted successfully!", { autoClose: 2000 });
+                window.location.reload();
               } catch (error) {
                 console.error("Error deleting plan: ", error);
                 toast.error("There was an error deleting the plan.");
@@ -203,11 +209,14 @@ const MyPlans = () => {
                                 <td>{exercise.reps}</td>
                                 <td>
                                   <div className='d-flex justify-content-center'>
-                                  <input
-                                    type="number"
+                                  <textarea
+                                    type="text"
                                     value={exercise.weight || ''}
-                                    onChange={(e) => handleWeightChange(day, idx, e.target.value)}
-                                    className="editable-weight-input form-control"
+                                    onChange={(e) => {
+                                      handleWeightChange(day, idx, e.target.value);
+                                      handleInputResize(e);
+                                    }}
+                                    className="editable-weight-input"
                                   />
                                   </div>
                                 </td>

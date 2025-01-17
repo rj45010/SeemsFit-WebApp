@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/Login.css';
-import { signInWithEmail } from '../utils/authUtils'; // Import the function
+import { signInWithEmail } from '../utils/authUtils';
 import SignInwithGoogle from './SignInWithGoogle';
 import {useTheme} from './ThemeProvider';
 

@@ -49,11 +49,11 @@ const Dropdown = () => {
       {/* Main Menu */}
       <ul className={`dropdown-menu ${isMainMenuOpen ? 'show' : ''}`}>
         {/* Menu Option */}
-        <li>
+        {/* <li>
           <Link className="btn px-3 main-dropdown-item" to="/ftf">
             Fat To Fit
           </Link>
-        </li>
+        </li> */}
 
         {/* 3 Day Workout Plans */}
         <li>

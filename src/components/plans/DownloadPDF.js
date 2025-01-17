@@ -2,8 +2,10 @@ import React from 'react';
 import html2pdf from 'html2pdf.js';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useTheme} from '../ThemeProvider';
 
 const DownloadPDFButton = ({ targetId, fileName }) => {
+  const { theme } = useTheme();
   const downloadPDF = () => {
     const element = document.getElementById(targetId);
     if (!element) {
@@ -57,17 +59,9 @@ const DownloadPDFButton = ({ targetId, fileName }) => {
 
   return (
     <button
-      className="pdf-button btn-primary"
-      onClick={downloadPDF}
-      style={{
-        backgroundColor: '#007bff',
-        color: '#fff',             
-        border: 'none',            
-        padding: '10px 20px',      
-        borderRadius: '4px',       
-        cursor: 'pointer',         
-      }}>
-      Download Workout PDF
+      className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"}`}
+      onClick={downloadPDF}>
+        Download PDF
     </button>
   );
 };

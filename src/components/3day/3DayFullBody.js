@@ -1,10 +1,98 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/SeePlans.css';
 import Dropdown from '../plans/Dropdown';
 import renderWorkoutSection from '../plans/RenderWorkout';
 import DownloadPDFButton from '../plans/DownloadPDF';
+import { db, auth } from '../firebase'; 
+import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import {useTheme} from '../ThemeProvider';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ThreeDaysWeek1 = () => {
+
+  const { theme } = useTheme();
+  const navigate = useNavigate();
+
+
+  const startWorkout = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      navigate('/login', { state: { from: '/three-days-week1' } });
+      return;
+    }
+  
+    const planName = "3 Days Week (Full Body)";
+    const workoutDetails = {
+      planName,
+      userId: user.uid,
+      createdAt: new Date().toISOString(),
+      dayLabels: {
+        Monday: "Full Body Strength",
+        Tuesday: "Rest Day",
+        Wednesday: "Upper Body & Legs",
+        Thursday: "Rest Day",
+        Friday: "Deadlift Focus & Isolation",
+        Saturday: "Rest Day",
+        Sunday: "Rest Day",
+      },
+      workoutPlan: {
+        Monday: [
+          { name: "Squat", sets: "5", reps: "5", weight: "" },
+          { name: "Dumbbell Bench Press", sets: "4", reps: "10", weight: "" },
+          { name: "Dumbbell Row", sets: "4", reps: "10", weight: "" },
+          { name: "Shoulder Press", sets: "4", reps: "10", weight: "" },
+          { name: "Lateral Raise", sets: "4", reps: "10", weight: "" },
+          { name: "Biceps Curl", sets: "3", reps: "12", weight: "" },
+        ],
+        Wednesday: [
+          { name: "Bench Press", sets: "5", reps: "5", weight: "" },
+          { name: "Leg Curl", sets: "4", reps: "10", weight: "" },
+          { name: "Lunges", sets: "4", reps: "10", weight: "" },
+          { name: "Lat Pulldown", sets: "4", reps: "10", weight: "" },
+          { name: "Lateral Raise", sets: "4", reps: "10", weight: "" },
+          { name: "Bar Triceps Extension", sets: "3", reps: "12", weight: "" },
+        ],
+        Friday: [
+          { name: "Deadlift", sets: "5", reps: "5", weight: "" },
+          { name: "Incline Dumbbell Press", sets: "4", reps: "10", weight: "" },
+          { name: "Biceps Curl", sets: "3", reps: "12", weight: "" },
+          { name: "Leg Press", sets: "4", reps: "10", weight: "" },
+          { name: "Skullcrushers", sets: "3", reps: "10", weight: "" },
+          { name: "Dumbbell Shrugs", sets: "3", reps: "12", weight: "" },
+        ],
+        Tuesday: [],
+        Thursday: [],
+        Saturday: [],
+        Sunday: [],
+      },
+    };
+  
+    try {
+      // Check if the plan already exists
+      const plansCollection = collection(db, "plans");
+      const q = query(plansCollection, where("planName", "==", planName), where("userId", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // Plan already exists
+        toast.info("Plan already exists!");
+        return;
+      }
+
+      // Save the new plan
+      await addDoc(plansCollection, workoutDetails);
+      toast.success("Workout plan saved successfully!");
+      setTimeout(() => navigate('/my-plan'), 1000);
+    } catch (error) {
+      console.error("Error saving workout:", error);
+      toast.error("Failed to save workout. Please try again.");
+    }
+  };
+  
+
+
   return (
     <div>
       <div className="container">
@@ -52,10 +140,17 @@ const ThreeDaysWeek1 = () => {
         <p><em>Note : Workouts may have been changed slightly.</em></p>
       </div>
 
-      <div className='d-flex justify-content-center mt-4 mb-4'>
-        <DownloadPDFButton targetId="workout-container" fileName="3DayFullBody.pdf" />
+      <div className='row mt-3 mb-3'>
+        <div className='col d-flex justify-content-center'>
+          <DownloadPDFButton targetId="workout-container" fileName="3DayFullBody.pdf" />
+        </div>
+        <div className='col d-flex justify-content-center'>
+          <button className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"}`}
+           onClick={startWorkout}>
+            Start Workout
+          </button>
+        </div>
       </div>
-
     </div>
   );
 };

@@ -259,3 +259,27 @@ h1 {
   color: #ccc;
   pointer-events: none;
 }
+
+.editable-weight-input {
+  resize: none; 
+  width: auto; 
+  min-width: 50px;
+  max-width: 100%;
+  height: auto; 
+  min-height: 30px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow-wrap: break-word;
+  white-space: pre-wrap; 
+  word-wrap: break-word;
+  text-align: center;
+  font-size: 14px; 
+}
+
+textarea:focus {
+  outline: none; 
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+

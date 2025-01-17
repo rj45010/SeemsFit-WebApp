@@ -1,10 +1,101 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/SeePlans.css';
 import Dropdown from '../plans/Dropdown';
 import renderWorkoutSection from '../plans/RenderWorkout';
 import DownloadPDFButton from '../plans/DownloadPDF';
+import { db, auth } from '../firebase';
+import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { useTheme } from '../ThemeProvider';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FiveDaysWeek = () => {
+  const { theme } = useTheme();
+  const navigate = useNavigate();
+
+  const startWorkout = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      navigate('/login', { state: { from: '/five-days-week' } });
+      return;
+    }
+
+    const planName = "5 Days Week (Beginner)";
+    const workoutDetails = {
+      planName,
+      userId: user.uid,
+      createdAt: new Date().toISOString(),
+      dayLabels: {
+        Monday: "Chest & Triceps",
+        Tuesday: "Back & Biceps",
+        Wednesday: "Rest Day",
+        Thursday: "Shoulder & Triceps",
+        Friday: "Legs & Biceps",
+        Saturday: "Rest day",
+        Sunday: "Cardio & Core",
+      },
+      workoutPlan: {
+        Monday: [
+          { name: "Chest Press", sets: "4", reps: "8", weight: "" },
+          { name: "Triceps Pushdown", sets: "4", reps: "10", weight: "" },
+          { name: "Chest Fly", sets: "4", reps: "12", weight: "" },
+          { name: "Skull Crusher", sets: "4", reps: "12", weight: "" },
+          { name: "Pushups", sets: "4", reps: "Till Failure", weight: "" },
+        ],
+        Tuesday: [
+          { name: "Standing Rows", sets: "4", reps: "10", weight: "" },
+          { name: "Lat Pulldown", sets: "4", reps: "10", weight: "" },
+          { name: "Standing Pullover", sets: "4", reps: "10", weight: "" },
+          { name: "Lateral Raises", sets: "4", reps: "10", weight: "" },
+          { name: "Bicep Curl", sets: "4", reps: "12", weight: "" },
+        ],
+        Thursday: [
+          { name: "Shoulder press", sets: "4", reps: "10", weight: "" },
+          { name: "Dips", sets: "4", reps: "10", weight: "" },
+          { name: "Standing Tricep Kickback", sets: "4", reps: "10", weight: "" },
+          { name: "Underhand flys", sets: "4", reps: "12", weight: "" },
+          { name: "Reverse flys", sets: "4", reps: "12", weight: "" },
+          { name: "Overhead Tricep Extension", sets: "4", reps: "12", weight: "" },
+        ],
+        Friday: [
+          { name: "Lunges", sets: "4", reps: "10", weight: "" },
+          { name: "Seated Calf Raise", sets: "4", reps: "12", weight: "" },
+          { name: "Lying alternating leg curls", sets: "4", reps: "12", weight: "" },
+          { name: "Biceps curls", sets: "4", reps: "12", weight: "" },
+          { name: "Squats", sets: "4", reps: "12", weight: "" },
+        ],
+        Sunday: [
+          { name: "Running/Biking/Jumping Rope/Aerobics", sets: "-", reps: "30 Min", weight: "" },
+          { name: "Crunches", sets: "4", reps: "12", weight: "" },
+          { name: "Mountain climbers", sets: "4", reps: "12", weight: "" },
+          { name: "Side Knee Drops", sets: "4", reps: "12", weight: "" },
+          { name: "Bicycle crunches", sets: "4", reps: "12", weight: "" },
+          { name: "Glute bridges", sets: "4", reps: "12", weight: "" },
+        ],
+        Saturday: [],
+      },
+    };
+
+    try {
+      const plansCollection = collection(db, "plans");
+      const q = query(plansCollection, where("planName", "==", planName), where("userId", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        toast.info("Plan already exists!");
+        return;
+      }
+
+      await addDoc(plansCollection, workoutDetails);
+      toast.success("Workout plan saved successfully!");
+      setTimeout(() => navigate('/my-plan'), 1000);
+    } catch (error) {
+      console.error("Error saving workout:", error);
+      toast.error("Failed to save workout. Please try again.");
+    }
+  };
+
   return (
     <div>
       <div className="container">
@@ -74,6 +165,17 @@ const FiveDaysWeek = () => {
         <DownloadPDFButton targetId="workout-container" fileName="5DayBeginner.pdf" />
       </div>
 
+      <div className='row mt-3 mb-3'>
+        <div className='col d-flex justify-content-center'>
+          <DownloadPDFButton targetId="workout-container" fileName="5DayBeginner.pdf" />
+        </div>
+        <div className='col d-flex justify-content-center'>
+          <button className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"}`} 
+            onClick={startWorkout}>
+            Start Workout
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

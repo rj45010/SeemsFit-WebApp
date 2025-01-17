@@ -1,10 +1,101 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/SeePlans.css';
 import Dropdown from '../plans/Dropdown';
 import renderWorkoutSection from '../plans/RenderWorkout';
 import DownloadPDFButton from '../plans/DownloadPDF';
+import { db, auth } from '../firebase'; 
+import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { useTheme } from '../ThemeProvider';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FourDaysWeek = () => {
+  const { theme } = useTheme();
+  const navigate = useNavigate();
+
+  const startWorkout = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      navigate('/login', { state: { from: '/four-days-week' } });
+      return;
+    }
+
+    const planName = "4 Days Week (Beginner)";
+    const workoutDetails = {
+      planName,
+      userId: user.uid,
+      createdAt: new Date().toISOString(),
+      dayLabels: {
+        Monday: "Legs & Intervals",
+        Tuesday: "Shoulder & Abs",
+        Wednesday: "Rest Day",
+        Thursday: "Chest & Triceps",
+        Friday: "Back & Biceps",
+        Saturday: "Rest Day",
+        Sunday: "Rest Day",
+      },
+      workoutPlan: {
+        Monday: [
+          { name: "Dumbbell Squat", sets: "3", reps: "10", weight: "" },
+          { name: "Dumbbell Lunge", sets: "3", reps: "5 each leg", weight: "" },
+          { name: "Plie Squat", sets: "3", reps: "10", weight: "" },
+          { name: "Dumbbell Step-Up", sets: "3", reps: "10", weight: "" },
+          { name: "Burpee", sets: "1", reps: "50", weight: "" },
+        ],
+        Tuesday: [
+          { name: "Dumbbell Overhead Press", sets: "3", reps: "10", weight: "" },
+          { name: "Dumbbell Lateral Raise", sets: "3", reps: "12-15", weight: "" },
+          { name: "Dumbbell Front Raise", sets: "3", reps: "12-15", weight: "" },
+          { name: "Rear-Delt Flye", sets: "3", reps: "12-15", weight: "" },
+          { name: "Shrug", sets: "3", reps: "10", weight: "" },
+          { name: "Face Pull", sets: "3", reps: "10", weight: "" },
+          { name: "Kneeling Cable Crunch", sets: "3", reps: "10", weight: "" },
+          { name: "Horizontal Cable Woodchop", sets: "3", reps: "10 each side", weight: "" },
+          { name: "Plank", sets: "3", reps: "Failure", weight: "" },
+        ],
+        Thursday: [
+          { name: "Dumbbell Incline Press", sets: "2", reps: "10", weight: "" },
+          { name: "Dumbbell Flat Press", sets: "3", reps: "10", weight: "" },
+          { name: "Dumbbell Flye", sets: "3", reps: "10", weight: "" },
+          { name: "Pushup", sets: "1", reps: "*AMRAP", weight: "" },
+          { name: "Close-Grip Bench Press", sets: "3", reps: "10", weight: "" },
+          { name: "Lying Dumbbell Skull Crusher", sets: "3", reps: "10", weight: "" },
+          { name: "Triceps Pushdown", sets: "3", reps: "10", weight: "" },
+        ],
+        Friday: [
+          { name: "Trap-Bar Deadlift", sets: "5", reps: "10", weight: "" },
+          { name: "One-Arm, Elbow-In Dumbbell Row", sets: "3", reps: "10", weight: "" },
+          { name: "Pullup", sets: "3", reps: "*AMRAP", weight: "" },
+          { name: "Barbell Curl", sets: "3", reps: "10", weight: "" },
+          { name: "Cable Curl", sets: "3", reps: "10", weight: "" },
+          { name: "Concentration Curl", sets: "3", reps: "10", weight: "" },
+        ],
+        Wednesday: [],
+        Saturday: [],
+        Sunday: [],
+      },
+    };
+
+    try {
+      const plansCollection = collection(db, "plans");
+      const q = query(plansCollection, where("planName", "==", planName), where("userId", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        toast.info("Plan already exists!");
+        return;
+      }
+
+      await addDoc(plansCollection, workoutDetails);
+      toast.success("Workout plan saved successfully!");
+      setTimeout(() => navigate('/my-plan'), 1000);
+    } catch (error) {
+      console.error("Error saving workout:", error);
+      toast.error("Failed to save workout. Please try again.");
+    }
+  };
+
   return (
     <div>
       <div className="container">
@@ -68,10 +159,17 @@ const FourDaysWeek = () => {
         <p><em>Note : Workouts may have been changed slightly.</em></p>
       </div>
 
-      <div className='d-flex justify-content-center mt-4 mb-4'>
-        <DownloadPDFButton targetId="workout-container" fileName="4DayBeginner.pdf" />
+      <div className='row mt-3 mb-3'>
+        <div className='col d-flex justify-content-center'>
+          <DownloadPDFButton targetId="workout-container" fileName="4DayBeginner.pdf" />
+        </div>
+        <div className='col d-flex justify-content-center'>
+          <button className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"}`} 
+            onClick={startWorkout}>
+            Start Workout
+          </button>
+        </div>
       </div>
-
     </div>
   );
 };

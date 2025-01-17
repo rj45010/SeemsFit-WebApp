@@ -34,7 +34,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
               </td>
               <td className="create-plan-td">
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Sets"
                   value={exercise.sets}
                   onChange={(e) => handleExerciseChange(e, index, day, 'sets')}
@@ -42,7 +42,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
               </td>
               <td className="create-plan-td">
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Reps"
                   value={exercise.reps}
                   onChange={(e) => handleExerciseChange(e, index, day, 'reps')}
@@ -50,7 +50,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
               </td>
               <td className="create-plan-td">
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Weight (KG)"
                   value={exercise.weight}
                   onChange={(e) => handleExerciseChange(e, index, day, 'weight')}
@@ -166,7 +166,7 @@ const CreatePlan = () => {
       console.log("Document written with ID: ", docRef.id);
   
       // Refresh the page and redirect to /my-plans
-      window.location.href = "/features";
+      window.location.href = "/my-plan";
     } catch (e) {
       console.error("Error adding document: ", e);
       toast.error("Error saving workout plan.", {

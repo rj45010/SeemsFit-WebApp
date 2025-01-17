@@ -16,13 +16,3 @@
   justify-content: center;
   border-radius: 6px;
 }
-
-.pdf-button {
-  background-color: white;
-  color: black;
-  font-size: 19px;
-  padding: 8px 16px;
-  border-radius: 6px;
-  box-shadow: 1px 4px 10px black;
-  transition: all 0.3s ease;
-}
