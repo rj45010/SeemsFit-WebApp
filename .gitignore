@@ -2,6 +2,7 @@
 .firebaserc
 firebase.json
 firestore.indexes.json
+firebase.js
 
 # Node modules directory
 /node_modules
