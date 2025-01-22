@@ -34,7 +34,10 @@ const HomeLoggedIn = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section id="Hero" className="gradient-background position-relative">
+      <section 
+      id="Hero" 
+      className={`gradient-background ${theme === 'dark' ? 'gradient-background-dark' : 'gradient-background-light'} position-relative`}
+    >
         <div className="container col-xxl-8 px-4 pt-5">
           <div className="row flex-lg-row-reverse align-items-center g-5">
             <div className="col-10 col-sm-8 col-lg-6 image-container">
@@ -49,13 +52,13 @@ const HomeLoggedIn = () => {
             </div>
             <div className="col-lg-6">
               <h1
-                className="display-5 fw-bold lh-1 mb-3 text-start"
-                style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}
+                className="display-5 fw-bold lh-1 mb-2 text-start"
+                style={{ color: theme === "light" ? "black" : "white" }}
                 >Welcome {firstName}
               </h1>
               <p 
                 className="lead"
-                style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}
+                style={{ color: theme === "light" ? "black" : "white" }}
                 >Let's get started and get growing.
               </p>
             </div>

@@ -1,4 +1,12 @@
-.gradient-background {
+/* For Light Theme */
+.gradient-background-light {
+  background: linear-gradient(300deg, #ff5e62 35%, #ff9966 65%, #ffcc00 100%);
+  background-size: 180% 180%;
+  animation: gradient-animation 6s linear infinite;
+}
+
+/* For Dark Theme (keep your current one) */
+.gradient-background-dark {
   background: linear-gradient(300deg, #1d8364 35%, #104e63 65%, #1d2b60 100%);
   background-size: 180% 180%;
   animation: gradient-animation 6s linear infinite;
@@ -74,7 +82,7 @@
     line-height: 1.5;
   }
 
-  .gradient-background {
+  .gradient-background-dark, .gradient-background-light {
     background-size: 160% 160%; 
     animation: gradient-animation 4s linear infinite;
   }

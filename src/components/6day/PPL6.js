@@ -27,58 +27,58 @@ const PPLWorkout = () => {
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Push",
-        Tuesday: "Legs",
-        Wednesday: "Pull",
-        Thursday: "Push",
-        Friday: "Legs",
-        Saturday: "Pull",
-        Sunday: "Rest day",
+        "Day 1": "Push",
+        "Day 2": "Legs",
+        "Day 3": "Pull",
+        "Day 4": "Push",
+        "Day 5": "Legs",
+        "Day 6": "Pull",
+        "Day 7": "Rest day",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Incline Bench Press", sets: "4", reps: "8", weight: "" },
           { name: "Seated Chest Press", sets: "4", reps: "8", weight: "" },
           { name: "Overhead Tricep Extension", sets: "3", reps: "10-15", weight: "" },
           { name: "Lateral Raises", sets: "5", reps: "15-20", weight: "" },
           { name: "Tricep Pushdown", sets: "3", reps: "10-15", weight: "" },
         ],
-        Tuesday: [
+        "Day 2": [
           { name: "Leg Curls", sets: "5", reps: "10-15", weight: "" },
           { name: "Hack Squat or Leg Press", sets: "5", reps: "10-15", weight: "" },
           { name: "Calf Raises", sets: "5", reps: "10-20", weight: "" },
           { name: "Seated Dumbbell Overhead Press", sets: "2-3", reps: "8-12", weight: "" },
         ],
-        Wednesday: [
+        "Day 3": [
           { name: "Lat Pull Down", sets: "3", reps: "8-12", weight: "" },
           { name: "Seated Row", sets: "3-4", reps: "8-12", weight: "" },
           { name: "Lat Pull Over", sets: "2-3", reps: "8-12", weight: "" },
           { name: "Reverse Pec Deck Fly", sets: "3", reps: "12-15", weight: "" },
           { name: "Bicep Curl", sets: "3-4", reps: "10-15", weight: "" },
         ],
-        Thursday: [
+        "Day 4": [
           { name: "Incline Bench Press", sets: "4", reps: "8", weight: "" },
           { name: "Seated Chest Press", sets: "4", reps: "8", weight: "" },
           { name: "Overhead Tricep Extension", sets: "3", reps: "10-15", weight: "" },
           { name: "Lateral Raises", sets: "5", reps: "15-20", weight: "" },
           { name: "Tricep Pushdown", sets: "3", reps: "10-15", weight: "" },
         ],
-        Friday: [
+        "Day 5": [
           { name: "Leg Curls", sets: "5", reps: "10-15", weight: "" },
           { name: "Hack Squat or Leg Press", sets: "5", reps: "10-15", weight: "" },
           { name: "Calf Raises", sets: "5", reps: "10-20", weight: "" },
           { name: "Seated Dumbbell Overhead Press", sets: "2-3", reps: "8-12", weight: "" },
         ],
-        Saturday: [
+        "Day 6": [
           { name: "Lat Pull Down", sets: "3", reps: "8-12", weight: "" },
           { name: "Seated Row", sets: "3-4", reps: "8-12", weight: "" },
           { name: "Lat Pull Over", sets: "2-3", reps: "8-12", weight: "" },
           { name: "Reverse Pec Deck Fly", sets: "3", reps: "12-15", weight: "" },
           { name: "Bicep Curl", sets: "3-4", reps: "10-15", weight: "" },
         ],
-        Sunday: [],
+        "Day 7": [],
       },
-    };
+    };    
 
     try {
       const plansCollection = collection(db, "plans");
@@ -146,18 +146,19 @@ const PPLWorkout = () => {
             Saket Gokhale
           </a>
         </p>
-        <p><em>Note : Workouts may have been changed slightly.</em></p>
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
 
-      <div className='d-flex justify-content-center mt-4 mb-4'>
-        <DownloadPDFButton targetId="workout-container" fileName="6DayPPL(Saket).pdf" />
-      </div>
-
-      <div className='d-flex justify-content-center mt-4 mb-4'>
-        <button className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"}`} 
-          onClick={startWorkout}>
-          Start Workout
-        </button>
+      <div className='row mt-3 mb-3'>
+        <div className='col d-flex justify-content-center'>
+          <DownloadPDFButton targetId="workout-container" fileName="6DayWeek.pdf" />
+        </div>
+        <div className='col d-flex justify-content-center'>
+          <button className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"}`} 
+            onClick={startWorkout}>
+            Start Workout
+          </button>
+        </div>
       </div>
     </div>
   );

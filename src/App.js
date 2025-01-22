@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { PrivateRoute } from './utils/authUtils';
+import './App.css';
+import loadingImage from './assests/loading_img.JPG';
 import HeaderWithSidebar from './components/Navbar';
 import EmptyHeader from './components/EmptyHeader';
 import Footer from './components/Footer';
@@ -14,7 +16,7 @@ import Features from './components/Features';
 import CreatePlan from './components/CreatePlan';
 import MyPlans from './components/MyPlans';
 import AboutUs from './components/AboutUs';
-import Account from './components/Account';
+// import Account from './components/Account';
 import WorkoutPlans from './components/plans/SeePlans';
 import FatToFit from './components/plans/FatToFit';
 import ThreeDaysWeek from './components/3day/3DaysWeek';
@@ -31,6 +33,7 @@ import PPLWorkout1 from './components/3day/PPL3';
 import PPLWorkout2 from './components/6day/PPL6day';
 import HomeLoggedIn from './components/HomeLoggedinPage';
 import ForgotPassword from "./components/ForgotPassword";
+import { Navigate } from 'react-router-dom';
 
 const hideFooterRoutes = [
   '/my-plan',
@@ -51,8 +54,13 @@ function App() {
   }, []);
 
   if (!isAuthChecked) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <img src={loadingImage} alt="Loading..." className="loading-image" />
+      </div>
+    );
   }
+  
 
   return (
     <Router>
@@ -75,11 +83,11 @@ const Content = ({ isLoggedIn }) => {
     <div>
       <Routes>
         <Route path="/" element={isLoggedIn ? <HomeLoggedIn /> : <Home />} />
-        <Route path="/home" element={<PrivateRoute><HomeLoggedIn /></PrivateRoute>} />
+        <Route path="/home" element={isLoggedIn ? <PrivateRoute><HomeLoggedIn /></PrivateRoute> : <Navigate to="/" />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/features" element={<Features />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/accounts" element={<Account />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/accounts" element={<Account />} /> */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/get-started" element={<GetStarted />} />
         <Route path="/create-plan" element={<CreatePlan />} />

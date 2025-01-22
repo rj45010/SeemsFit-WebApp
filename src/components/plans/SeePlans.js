@@ -8,7 +8,7 @@ const WorkoutPlans = () => {
     <div className='vh-100'>
     <div className="container plan-page">
       <Dropdown />
-      <p className="text-center mt-3">Choose a Workout Plan</p>
+      {/* <p className="text-center mt-3">Choose a Workout Plan</p> */}
     </div>
     </div>
   );

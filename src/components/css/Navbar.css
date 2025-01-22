@@ -1,27 +1,84 @@
-.fixed {
-  position: fixed;
-  justify-content: center;
+.home-header {
+  position: fixed !important;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 60px;
   color: white;
   width: 100%;
-  z-index: 6;
+  padding: 0 1.5rem;
+  z-index: 1000;
   padding: 0;
   top: 0;
   left: 0;
   background-color: #222529;
   transition: transform 0.3s ease;
-  box-shadow: 0px 10px 12px #1a1e21;
+  box-shadow: 0px 4px 6px #1a1e21;
+}
+
+.logo {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  height: 100%;            
+}
+
+.logo-image {
+  max-width: 200px;
+  height: auto;
+}
+@media (max-width: 430px) {
+  .logo-image {
+    max-width: 150px;
+    padding-top: 6px;
+  }
+}
+
+/* Hamburger icon positioning */
+.toggle-button {
+  font-size: 1.5rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  padding-left: 30px;
+}
+@media (max-width: 430px) {
+ .toggle-button {
+  padding-left: 25px;
+  font-size: 1rem;
+ }
+}
+
+/* Theme toggle button */
+.toggle-button-theme {
+  color: white;
+  background-color: #222529;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  padding-right: 30px;
+}
+
+@media (max-width: 430px) {
+  .toggle-button-theme {
+    font-size: 1rem;
+    padding-right: 25px;
+    margin-top: 6px;
+  }
 }
 
 /* Dropdown menu styles */
 .dropdown {
+  position: fixed !important;
+  top: 60px;
   left: 0;
   right: 0;
   background-color: #1a1e21;
-  box-shadow: 0px 10px 12px #1a1e21;
+  box-shadow: 0px 4px 6px #1a1e21;
   padding: 10px 0;
-  z-index: 5;
+  z-index: 999;
   text-align: center;
   display: none;
 }
@@ -49,39 +106,37 @@
   font-size: 1.1rem;
 }
 
-/* Toggle button styles */
-.toggle-button {
-  position: absolute;
-  left: 1.5rem;
-  font-size: 1.5rem;
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-}
-
-@media (max-width: 430px) {
- .toggle-button {
-  padding-left: 0;
- }
-}
-
-.logo {
+.header-button {
+  color: white !important;
+  cursor: pointer !important;
   text-align: center;
+  width: 100%;
+}
+.header-button i {
+  margin-left: 15px;
 }
 
-.logo-image {
-  max-width: 240px;
-  height: auto;
-}
-
-.toggle-button-theme {
-  right: 1.5rem;
-  color: black;
-  background-color: white;
-  border: none;
-  border-radius: 8px;
+/* Submenu styles */
+.sub-dropdown {
+  background-color: #f8f9fa !important;
+  color: black !important;
   cursor: pointer;
-  padding: 10px;
+}
+
+.sub-dropdown li button i {
+  margin-right: 15px;
+}
+.sub-dropdown button {
+  width: 100%;
+}
+.toggle-arrow {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+.toggle-arrow.open {
+  transform: rotate(90deg);
+}
+.toggle-arrow.closed {
+  transform: rotate(0deg);
 }

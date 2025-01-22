@@ -27,23 +27,23 @@ const FourDaysWeek2 = () => {
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Back & Biceps",
-        Tuesday: "Chest & Triceps",
-        Wednesday: "Rest Day",
-        Thursday: "Quads, Hamstrings & Calves",
-        Friday: "Shoulder, Traps & Forearms",
-        Saturday: "Rest Day",
-        Sunday: "Rest Day",
+        "Day 1": "Back & Biceps",
+        "Day 2": "Chest & Triceps",
+        "Day 3": "Rest Day",
+        "Day 4": "Quads, Hamstrings & Calves",
+        "Day 5": "Shoulder, Traps & Forearms",
+        "Day 6": "Rest Day",
+        "Day 7": "Rest Day",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Deadlift", sets: "2", reps: "5", weight: "" },
           { name: "One Arm Dumbbell Row", sets: "3", reps: "8-12", weight: "" },
           { name: "Wide Grip Pull Up or Lat Pull Down", sets: "3", reps: "10-12", weight: "" },
           { name: "Barbell Row", sets: "3", reps: "8-12", weight: "" },
           { name: "Seated Cable Row or Machine Row", sets: "5 Minutes", reps: "Burn", weight: "" },
         ],
-        Tuesday: [
+        "Day 2": [
           { name: "Bench Press", sets: "3", reps: "6-10", weight: "" },
           { name: "Incline Dumbbell Bench Press", sets: "3", reps: "8-12", weight: "" },
           { name: "Chest Dip", sets: "3", reps: "AMRAP", weight: "" },
@@ -53,7 +53,7 @@ const FourDaysWeek2 = () => {
           { name: "Two Arm Seated Dumbbell Extension", sets: "3", reps: "8-12", weight: "" },
           { name: "Cable Tricep Extension", sets: "5 Minutes", reps: "Burn", weight: "" },
         ],
-        Thursday: [
+        "Day 4": [
           { name: "Squat", sets: "3", reps: "6-10", weight: "" },
           { name: "Leg Press", sets: "3", reps: "15-20", weight: "" },
           { name: "Hack Squat or Dumbbell Lunge", sets: "3", reps: "8-12", weight: "" },
@@ -63,7 +63,7 @@ const FourDaysWeek2 = () => {
           { name: "Standing Calf Raises", sets: "3", reps: "10-15", weight: "" },
           { name: "Seated Calf Raises", sets: "5 Minutes", reps: "Burn", weight: "" },
         ],
-        Friday: [
+        "Day 5": [
           { name: "Seated Barbell Press", sets: "3", reps: "6-10", weight: "" },
           { name: "Seated Arnold Press", sets: "3", reps: "8-12", weight: "" },
           { name: "Dumbbell Lateral Raise", sets: "3", reps: "10-15", weight: "" },
@@ -73,11 +73,11 @@ const FourDaysWeek2 = () => {
           { name: "Seated Barbell Wrist Curl", sets: "3", reps: "12-15", weight: "" },
           { name: "Barbell Static Hold", sets: "5 Minutes", reps: "Burn", weight: "" },
         ],
-        Wednesday: [],
-        Saturday: [],
-        Sunday: [],
+        "Day 3": [],
+        "Day 6": [],
+        "Day 7": [],
       },
-    };
+    };    
 
     try {
       const plansCollection = collection(db, "plans");
@@ -160,7 +160,7 @@ const FourDaysWeek2 = () => {
         <br />
         <p>Workout Plan from: <a href="https://www.muscleandstrength.com/" target="_blank" rel="noopener noreferrer">www.muscleandstrength.com</a></p>
         <p><em>*AMRAP = As many reps as possible</em></p>
-        <p><em>Note : Workouts may have been changed slightly.</em></p>
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
 
       <div className="row mt-3 mb-3">

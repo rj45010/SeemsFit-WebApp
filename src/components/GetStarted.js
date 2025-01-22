@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { registerUser } from '../utils/authUtils';  
 import SignInwithGoogle from './SignInWithGoogle';
+import {useTheme} from './ThemeProvider';
 
 const GetStartedPage = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ const GetStartedPage = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [redirectToLogin, setRedirectToLogin] = useState(false);
+  const { theme } = useTheme();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -42,7 +44,7 @@ const GetStartedPage = () => {
           <div className="col-12 col-md-9 col-lg-7 col-xl-6">
             <div className="card" style={{ borderRadius: '2rem' }}>
               <div className="card-body p-5 text-center">
-                <h3 className='mb-3'>Get Started</h3>
+                <h5 className='mb-3'>Fill in details to sign up</h5>
 
                 <form onSubmit={handleRegister}>
                   {error && (
@@ -104,7 +106,7 @@ const GetStartedPage = () => {
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"
-                      className="btn btn-outline-light btn-lg px-4 me-md-2"
+                      className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"} btn-lg px-4 me-md-2`}
                     >
                       Register
                     </button>

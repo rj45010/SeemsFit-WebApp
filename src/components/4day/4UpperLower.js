@@ -27,28 +27,29 @@ const FourDaysWeek1 = () => {
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Upper Strength",
-        Tuesday: "Lower Strength",
-        Thursday: "Upper Hypertrophy",
-        Friday: "Lower Hypertrophy",
-        Saturday: "Rest Day",
-        Sunday: "Rest Day",
+        "Day 1": "Upper Strength",
+        "Day 2": "Lower Strength",
+        "Day 3": "Rest Day",
+        "Day 4": "Upper Hypertrophy",
+        "Day 5": "Lower Hypertrophy",
+        "Day 6": "Rest Day",
+        "Day 7": "Rest Day",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Bench Press", sets: "4", reps: "6", weight: "" },
           { name: "Dumbbell Row", sets: "4", reps: "6", weight: "" },
           { name: "Shoulder Press", sets: "4", reps: "6", weight: "" },
           { name: "Lat Pull Down", sets: "4", reps: "6", weight: "" },
           { name: "Hyperextensions", sets: "3", reps: "12-15", weight: "" },
         ],
-        Tuesday: [
+        "Day 2": [
           { name: "Smith Squat", sets: "4", reps: "6", weight: "" },
           { name: "Deadlift", sets: "4", reps: "6", weight: "" },
           { name: "Lunges", sets: "4", reps: "6", weight: "" },
           { name: "Hip Thrust", sets: "4", reps: "6", weight: "" },
         ],
-        Thursday: [
+        "Day 4": [
           { name: "Incline Dumbbell Bench Press", sets: "3", reps: "12", weight: "" },
           { name: "Seated Cable Row", sets: "3", reps: "12", weight: "" },
           { name: "Shoulder Press", sets: "3", reps: "12", weight: "" },
@@ -56,16 +57,17 @@ const FourDaysWeek1 = () => {
           { name: "Biceps Curl", sets: "2", reps: "12", weight: "" },
           { name: "Triceps Extensions", sets: "2", reps: "12", weight: "" },
         ],
-        Friday: [
+        "Day 5": [
           { name: "Goblet Squat", sets: "3", reps: "12", weight: "" },
           { name: "Deadlift", sets: "3", reps: "12", weight: "" },
           { name: "Bulgarian Split Squat (Each Leg)", sets: "3", reps: "12", weight: "" },
           { name: "Hip Thrust or Hip Abductor Machine", sets: "3", reps: "12", weight: "" },
         ],
-        Saturday: [],
-        Sunday: [],
+        "Day 3": [],
+        "Day 6": [],
+        "Day 7": [],
       },
-    };
+    };    
 
     try {
       const plansCollection = collection(db, "plans");
@@ -133,7 +135,7 @@ const FourDaysWeek1 = () => {
           ["Bulgarian Split Squat (Each Leg)", "3 Sets", "12 reps"],
           ["Hip Thrust or Hip Abductor Machine", "3 Sets", "12 reps"],
         ])}
-        <p><em>Note : Workouts may have been changed slightly.</em></p>
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
 
       <div className='row mt-3 mb-3'>

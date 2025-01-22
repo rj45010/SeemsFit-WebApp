@@ -27,16 +27,16 @@ const ThreeDaysWeek = () => {
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Chest Shoulders & Triceps",
-        Tuesday: "Rest day",
-        Wednesday: "Back and Biceps",
-        Thursday: "Rest day",
-        Friday: "Legs and Core",
-        Saturday: "Rest Day",
-        Sunday: "Rest Day",
+        "Day 1": "Chest Shoulders & Triceps",
+        "Day 2": "Rest day",
+        "Day 3": "Back and Biceps",
+        "Day 4": "Rest day",
+        "Day 5": "Legs and Core",
+        "Day 6": "Rest Day",
+        "Day 7": "Rest Day",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Bench Press", sets: "3", reps: "6-8", weight: "" },
           { name: "Incline Dumbbell Bench Press", sets: "3", reps: "8-12", weight: "" },
           { name: "Cable Crossover", sets: "3", reps: "8-12", weight: "" },
@@ -45,7 +45,7 @@ const ThreeDaysWeek = () => {
           { name: "Skullcrushers", sets: "3", reps: "8-12", weight: "" },
           { name: "Triceps Rope Pushdown", sets: "3", reps: "8-12", weight: "" },
         ],
-        Wednesday: [
+        "Day 3": [
           { name: "Seated Cable Row", sets: "3", reps: "8-12", weight: "" },
           { name: "Lat Pulldown", sets: "3", reps: "8-12", weight: "" },
           { name: "Bent-Over Fly Dumbbell", sets: "3", reps: "8-12", weight: "" },
@@ -53,7 +53,7 @@ const ThreeDaysWeek = () => {
           { name: "Biceps Barbell Curls", sets: "3", reps: "8-12", weight: "" },
           { name: "Hammer Curls", sets: "3", reps: "8-12", weight: "" },
         ],
-        Friday: [
+        "Day 5": [
           { name: "Barbell Squat", sets: "3", reps: "8-12", weight: "" },
           { name: "Leg Press", sets: "3", reps: "8-12", weight: "" },
           { name: "Leg Extension", sets: "3", reps: "8-12", weight: "" },
@@ -62,10 +62,10 @@ const ThreeDaysWeek = () => {
           { name: "Plank", sets: "3", reps: "30-60 sec", weight: "" },
           { name: "Crunch", sets: "3", reps: "15-20", weight: "" },
         ],
-        Tuesday: [],
-        Thursday: [],
-        Saturday: [],
-        Sunday: [],
+        "Day 2": [],
+        "Day 4": [],
+        "Day 6": [],
+        "Day 7": [],
       },
     };
 
@@ -145,9 +145,7 @@ const ThreeDaysWeek = () => {
           </a>
         </p>
         <br />
-        <p>
-          <em>Note: Workouts may have been changed slightly.</em>
-        </p>
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
 
       <div className='row mt-3 mb-3'>

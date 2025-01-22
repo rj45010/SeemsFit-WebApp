@@ -6,15 +6,13 @@ import renderWorkoutSection from '../plans/RenderWorkout';
 import DownloadPDFButton from '../plans/DownloadPDF';
 import { db, auth } from '../firebase'; 
 import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
-import {useTheme} from '../ThemeProvider';
+import { useTheme } from '../ThemeProvider';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ThreeDaysWeek1 = () => {
-
   const { theme } = useTheme();
   const navigate = useNavigate();
-
 
   const startWorkout = async () => {
     const user = auth.currentUser;
@@ -22,23 +20,23 @@ const ThreeDaysWeek1 = () => {
       navigate('/login', { state: { from: '/three-days-week1' } });
       return;
     }
-  
+
     const planName = "3 Days Week (Full Body)";
     const workoutDetails = {
       planName,
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Full Body Strength",
-        Tuesday: "Rest Day",
-        Wednesday: "Upper Body & Legs",
-        Thursday: "Rest Day",
-        Friday: "Deadlift Focus & Isolation",
-        Saturday: "Rest Day",
-        Sunday: "Rest Day",
+        "Day 1": "Full Body Strength",
+        "Day 2": "Rest Day",
+        "Day 3": "Upper Body & Legs",
+        "Day 4": "Rest Day",
+        "Day 5": "Deadlift Focus & Isolation",
+        "Day 6": "Rest Day",
+        "Day 7": "Rest Day",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Squat", sets: "5", reps: "5", weight: "" },
           { name: "Dumbbell Bench Press", sets: "4", reps: "10", weight: "" },
           { name: "Dumbbell Row", sets: "4", reps: "10", weight: "" },
@@ -46,7 +44,8 @@ const ThreeDaysWeek1 = () => {
           { name: "Lateral Raise", sets: "4", reps: "10", weight: "" },
           { name: "Biceps Curl", sets: "3", reps: "12", weight: "" },
         ],
-        Wednesday: [
+        "Day 2": [],
+        "Day 3": [
           { name: "Bench Press", sets: "5", reps: "5", weight: "" },
           { name: "Leg Curl", sets: "4", reps: "10", weight: "" },
           { name: "Lunges", sets: "4", reps: "10", weight: "" },
@@ -54,7 +53,8 @@ const ThreeDaysWeek1 = () => {
           { name: "Lateral Raise", sets: "4", reps: "10", weight: "" },
           { name: "Bar Triceps Extension", sets: "3", reps: "12", weight: "" },
         ],
-        Friday: [
+        "Day 4": [],
+        "Day 5": [
           { name: "Deadlift", sets: "5", reps: "5", weight: "" },
           { name: "Incline Dumbbell Press", sets: "4", reps: "10", weight: "" },
           { name: "Biceps Curl", sets: "3", reps: "12", weight: "" },
@@ -62,13 +62,11 @@ const ThreeDaysWeek1 = () => {
           { name: "Skullcrushers", sets: "3", reps: "10", weight: "" },
           { name: "Dumbbell Shrugs", sets: "3", reps: "12", weight: "" },
         ],
-        Tuesday: [],
-        Thursday: [],
-        Saturday: [],
-        Sunday: [],
+        "Day 6": [],
+        "Day 7": [],
       },
     };
-  
+
     try {
       // Check if the plan already exists
       const plansCollection = collection(db, "plans");
@@ -90,8 +88,6 @@ const ThreeDaysWeek1 = () => {
       toast.error("Failed to save workout. Please try again.");
     }
   };
-  
-
 
   return (
     <div>
@@ -108,6 +104,7 @@ const ThreeDaysWeek1 = () => {
           Day 4: Rest Day<br />
           Day 5: Deadlift Focus & Isolation<br />
           Day 6: Rest Day<br />
+          Day 7: Rest Day<br />
         </p>
         
         {renderWorkoutSection("Day 1: Full Body Strength", [
@@ -137,7 +134,7 @@ const ThreeDaysWeek1 = () => {
           ["Dumbbell Shrugs", "3 Sets", "12 reps"],
         ])}
 
-        <p><em>Note : Workouts may have been changed slightly.</em></p>
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
 
       <div className='row mt-3 mb-3'>

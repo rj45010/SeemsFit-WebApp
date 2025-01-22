@@ -12,7 +12,59 @@ h1 {
   text-align: center;
   padding-bottom: 20px;
   font-size: 28px;
-  color: #ffffff;
+  color: #f8f9fa;
+}
+
+/* Dropdown Menu */
+.custom-dropdown {
+  position: relative;
+  width: auto;
+  max-width: 320px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.custom-dropdown select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  padding: 6px 10px;
+  font-size: 16px;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  white-space: normal;
+  overflow-wrap: break-word;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  display: block;
+}
+
+.custom-dropdown::after {
+  position: absolute;
+  right: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #f8f9fa;
+  pointer-events: none;
+}
+
+#plans-dropdown-light {
+  background-color: #f8f9fa;
+  color: black;
+  border-color: #222529;
+  border-width: 0px;
+  border-radius: 12px;
+  box-shadow: 0 0 3px #222529;
+}
+#plans-dropdown-dark {
+  background-color: #222529;
+  color: #f8f9fa;
+  border-color: #f8f9fa;
+  border-width: 0px;
+  border-radius: 12px;
+  box-shadow: 0 0 3px #f8f9fa;
 }
 
 /* Individual plan section */
@@ -33,7 +85,7 @@ h1 {
 
 .day-heading {
   font-size: 20px;
-  color: #ffffff;
+  color: #f8f9fa;
   padding-bottom: 3px;
 }
 
@@ -56,14 +108,16 @@ h1 {
 .plans-table th,
 .plans-table td {
   border: 1px solid #495057;
-  padding: 10px;
+  padding: 2px;
   text-align: center;
   font-size: 16px;
+  word-wrap: break-word; 
+  hyphens: auto;
 }
 
 .plans-table th {
   background-color: #495057;
-  color: #ffffff;
+  color: #f8f9fa;
   font-weight: bold;
 }
 
@@ -76,30 +130,64 @@ h1 {
   background-color: #e9ecef;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  #my-plans-container {
-    padding: 10px;
-  }
+.weights {
+ padding: 10px;
+}
 
-  .day-heading {
-    font-size: 18px;
-  }
+.editable-weight-input {
+  resize: none; 
+  width: auto; 
+  min-width: 50px;
+  max-width: 100%;
+  height: auto; 
+  min-height: 30px;
+  padding: 5px;
+  border: 1px solid #f8f9fa;
+  border-radius: 5px;
+  overflow-wrap: break-word;
+  white-space: pre-wrap; 
+  word-wrap: break-word;
+  text-align: center;
+  font-size: 14px; 
+}
 
-  .plans-table {
-    font-size: 14px;
-  }
+textarea:focus {
+  outline: none; 
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
-  h1 {
-    font-size: 24px;
-  }
+.del-button {
+  font-size: 1rem;
+  color: white;
+  background-color: #c82333;
+  box-shadow: 2px 2px 15px black;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.edit-button {
+  font-size: 1rem;
+  color: white;
+  background-color: rgb(53, 150, 67);
+  box-shadow: 2px 2px 15px black;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 10px;
 }
 
 #exercise-container p {
   text-align: center;
   padding-bottom: 20px;
   font-size: 15px;
-  color: #ffffff;
+  color: #f8f9fa;
+}
+
+.saved-plan-button {
+  text-align: center !important;
 }
 
 /* Toast Styles */
@@ -143,10 +231,11 @@ h1 {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   position: fixed;
-  z-index: 1000;
+  z-index: 1001;
 }
 
-.toast-button-yes {
+.toast-button-yes,
+.toast-button-no {
   width: 42px;
   color: white;
   background-color: #007bff;
@@ -155,19 +244,15 @@ h1 {
   border-radius: 6px;
   cursor: pointer;
   padding: 6px;
-  margin-right: 50%;
-  margin-left: 10%;
 }
 
+.toast-button-yes {
+  margin-right: 25%;
+  margin-left: 17%;
+}
 .toast-button-no {
-  width: 42px;
-  color: white;
-  background-color: red;
-  font-size:small;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 6px;
+  background-color: #dc3545;
+  margin-left: 25%;
 }
 
 /* Overlay style */
@@ -178,7 +263,7 @@ h1 {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 1001;
   display: none;
   backdrop-filter: blur(5px);
   pointer-events: none;
@@ -187,6 +272,26 @@ h1 {
 .overlay.active {
   display: block; 
   pointer-events: all; 
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  #my-plans-container {
+    padding: 10px;
+  }
+
+  .day-heading {
+    font-size: 18px;
+  }
+
+  .plans-table {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
 }
 
 /* Editable Weights Part */
@@ -203,83 +308,3 @@ h1 {
     text-align: center;
   }
 }
-
-.del-button {
-  font-size: 1rem;
-  color: white;
-  background-color: #c82333;
-  box-shadow: 2px 2px 15px black;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 10px;
-}
-
-.edit-button {
-  font-size: 1rem;
-  color: white;
-  background-color: rgb(53, 150, 67);
-  box-shadow: 2px 2px 15px black;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 10px;
-}
-
-/* Dropdown Menu */
-.custom-dropdown {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 10px;
-}
-
-.custom-dropdown select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: transparent;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-size: 16px;
-  width: auto;
-  cursor: pointer;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  box-shadow: 0px 10px 12px #1a1e21;
-}
-
-.custom-dropdown::after {
-  position: absolute;
-  right: auto;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 18px;
-  color: #ccc;
-  pointer-events: none;
-}
-
-.editable-weight-input {
-  resize: none; 
-  width: auto; 
-  min-width: 50px;
-  max-width: 100%;
-  height: auto; 
-  min-height: 30px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow-wrap: break-word;
-  white-space: pre-wrap; 
-  word-wrap: break-word;
-  text-align: center;
-  font-size: 14px; 
-}
-
-textarea:focus {
-  outline: none; 
-  border-color: #007bff; 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-

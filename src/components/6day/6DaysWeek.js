@@ -27,23 +27,23 @@ const SixDaysWeek = () => {
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Back",
-        Tuesday: "Chest & Abs",
-        Wednesday: "Quads",
-        Thursday: "Shoulders",
-        Friday: "Hamstrings",
-        Saturday: "Arms",
-        Sunday: "Rest Day",
+        "Day 1": "Back",
+        "Day 2": "Chest & Abs",
+        "Day 3": "Quads",
+        "Day 4": "Shoulders",
+        "Day 5": "Hamstrings",
+        "Day 6": "Arms",
+        "Day 7": "Rest Day",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Pull-Up or Lat Pulldown", sets: "4", reps: "10", weight: "" },
           { name: "Barbell Row", sets: "4", reps: "10", weight: "" },
           { name: "Seated Row", sets: "4", reps: "10", weight: "" },
           { name: "Dumbbell Shrug", sets: "4", reps: "10", weight: "" },
           { name: "Back Extension", sets: "4", reps: "10", weight: "" },
         ],
-        Tuesday: [
+        "Day 2": [
           { name: "Bench Press", sets: "4", reps: "10", weight: "" },
           { name: "Incline Dumbbell Press", sets: "4", reps: "10", weight: "" },
           { name: "Standing Cable Chest Fly", sets: "4", reps: "10", weight: "" },
@@ -52,26 +52,26 @@ const SixDaysWeek = () => {
           { name: "Hanging Knee Raise", sets: "4", reps: "15-20", weight: "" },
           { name: "Crunch", sets: "4", reps: "15-20", weight: "" },
         ],
-        Wednesday: [
+        "Day 3": [
           { name: "Squat", sets: "4", reps: "10", weight: "" },
           { name: "Hack Squat Machine", sets: "4", reps: "10", weight: "" },
           { name: "Barbell Lunge", sets: "4", reps: "10", weight: "" },
           { name: "Leg Extension", sets: "4", reps: "10", weight: "" },
         ],
-        Thursday: [
+        "Day 4": [
           { name: "Overhead Press", sets: "4", reps: "10", weight: "" },
           { name: "Dumbbell Lateral Raise", sets: "4", reps: "10", weight: "" },
           { name: "Seated Dumbbell Shoulder Press", sets: "4", reps: "10", weight: "" },
           { name: "Reverse Dumbbell Flyes", sets: "4", reps: "10", weight: "" },
         ],
-        Friday: [
+        "Day 5": [
           { name: "Lying Leg Curl", sets: "4", reps: "10", weight: "" },
           { name: "Seated Leg Curl", sets: "4", reps: "10", weight: "" },
           { name: "Romanian Deadlift", sets: "4", reps: "10", weight: "" },
           { name: "Standing Calf Raise", sets: "4", reps: "10", weight: "" },
           { name: "Seated Calf Raise", sets: "4", reps: "10", weight: "" },
         ],
-        Saturday: [
+        "Day 6": [
           { name: "Barbell Curl", sets: "4", reps: "10", weight: "" },
           { name: "Preacher Curl", sets: "4", reps: "10", weight: "" },
           { name: "Cable Curl", sets: "4", reps: "10", weight: "" },
@@ -79,9 +79,9 @@ const SixDaysWeek = () => {
           { name: "Dumbbell Triceps Extension", sets: "4", reps: "10", weight: "" },
           { name: "Tricep Pushdown", sets: "4", reps: "10", weight: "" },
         ],
-        Sunday: [],
+        "Day 7": [],
       },
-    };
+    };    
 
     try {
       const plansCollection = collection(db, "plans");
@@ -171,10 +171,6 @@ const SixDaysWeek = () => {
 
         <p>Workout Plan from: <a href="https://www.strengthlog.com/" target="_blank" rel="noopener noreferrer">www.strengthlog.com</a></p>
         <p><em>Note: Workouts may have been changed slightly.</em></p>
-      </div>
-
-      <div className='d-flex justify-content-center mt-4 mb-4'>
-        <DownloadPDFButton targetId="workout-container" fileName="6DayWeek.pdf" />
       </div>
 
       <div className='row mt-3 mb-3'>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, addDoc, collection, auth } from './firebase';
+import { Timestamp } from "firebase/firestore";
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,6 +8,7 @@ import './css/CreatePlan.css';
 import {useTheme} from './ThemeProvider';
 
 const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExerciseChange, handleAddExercise, handleDeleteExercise }) => {
+  const { theme } = useTheme();
   return (
     <div className="container">
       <div className="day-container">
@@ -16,7 +18,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
           <input
             type="text"
             placeholder="Rest Day"
-            value={dayLabel || "Rest Day"}
+            value={dayLabel || ""}
             onChange={(e) => handleDayLabelChange(e, day)}
             className="day-label-input"
           />
@@ -24,7 +26,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
         <table className="create-plan-table">
           {exercises.map((exercise, index) => (
             <tr key={index}>
-              <td className="create-plan-td">
+              <td className={`${theme === "light" ? "create-plan-td-light" : "create-plan-td-dark"} create-plan-td`}>
                 <input
                   type="text"
                   placeholder="Exercise Name"
@@ -32,7 +34,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
                   onChange={(e) => handleExerciseChange(e, index, day, 'name')}
                 />
               </td>
-              <td className="create-plan-td">
+              <td className={`${theme === "light" ? "create-plan-td-light" : "create-plan-td-dark"} create-plan-td`}>
                 <input
                   type="text"
                   placeholder="Sets"
@@ -40,7 +42,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
                   onChange={(e) => handleExerciseChange(e, index, day, 'sets')}
                 />
               </td>
-              <td className="create-plan-td">
+              <td className={`${theme === "light" ? "create-plan-td-light" : "create-plan-td-dark"} create-plan-td`}>
                 <input
                   type="text"
                   placeholder="Reps"
@@ -48,7 +50,7 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
                   onChange={(e) => handleExerciseChange(e, index, day, 'reps')}
                 />
               </td>
-              <td className="create-plan-td">
+              <td className={`${theme === "light" ? "create-plan-td-light" : "create-plan-td-dark"} create-plan-td`}>
                 <input
                   type="text"
                   placeholder="Weight (KG)"
@@ -56,9 +58,9 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
                   onChange={(e) => handleExerciseChange(e, index, day, 'weight')}
                 />
               </td>
-              <td className="create-plan-td">
+              <td className={`${theme === "light" ? "create-plan-td-light" : "create-plan-td-dark"} create-plan-td`}>
                 <button
-                  className="delete-button"
+                  className="btn btn-danger delete-button"
                   onClick={() => handleDeleteExercise(day, index)}
                 >
                   Delete
@@ -67,13 +69,11 @@ const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExer
             </tr>
           ))}
         </table>
-        <button className="add-exercise" onClick={() => handleAddExercise(day)}>Add Exercise</button>
+        <button className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"} add-exercise`} onClick={() => handleAddExercise(day)}>Add Exercise</button>
       </div>
     </div>
   );
 };
-
-
 
 const CreatePlan = () => {
   const { theme } = useTheme();
@@ -82,23 +82,23 @@ const CreatePlan = () => {
   ];
 
   const [workoutPlan, setWorkoutPlan] = useState({
-    Monday: [...initialExercises],
-    Tuesday: [...initialExercises],
-    Wednesday: [...initialExercises],
-    Thursday: [...initialExercises],
-    Friday: [...initialExercises],
-    Saturday: [...initialExercises],
-    Sunday: [...initialExercises],
+    "Day 1": [...initialExercises],
+    "Day 2": [...initialExercises],
+    "Day 3": [...initialExercises],
+    "Day 4": [...initialExercises],
+    "Day 5": [...initialExercises],
+    "Day 6": [...initialExercises],
+    "Day 7": [...initialExercises],
   });
 
   const [dayLabels, setDayLabels] = useState({
-    Monday: "Rest Day",
-    Tuesday: "Rest Day",
-    Wednesday: "Rest Day",
-    Thursday: "Rest Day",
-    Friday: "Rest Day",
-    Saturday: "Rest Day",
-    Sunday: "Rest Day",
+    "Day 1": "",
+    "Day 2": "",
+    "Day 3": "",
+    "Day 4": "",
+    "Day 5": "",
+    "Day 6": "",
+    "Day 7": "",
   });
 
   const [planName, setPlanName] = useState("");
@@ -159,13 +159,13 @@ const CreatePlan = () => {
         dayLabels,
         planName,
         userId: auth.currentUser.uid,
-        createdAt: new Date().toISOString(),
+        createdAt: Timestamp.now(),
       };
   
       const docRef = await addDoc(collection(db, "plans"), planWithLabels);
       console.log("Document written with ID: ", docRef.id);
   
-      // Refresh the page and redirect to /my-plans
+      // Refresh the page and redirect to my-plan
       window.location.href = "/my-plan";
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -203,7 +203,7 @@ const CreatePlan = () => {
 
   return (
     <div id="exercise-container">
-      <div className="plan-name-container d-flex justify-content-center align-items-center">
+      <div className={` ${theme === "light" ? "plan-name-container-light" : "plan-name-container-dark"} d-flex justify-content-center align-items-center`}>
         <input
           type="text"
           placeholder="Workout Plan Name"
@@ -224,7 +224,13 @@ const CreatePlan = () => {
           handleDeleteExercise={handleDeleteExercise}
         />
       ))}
-      <button className="save-button" onClick={handleSavePlan}>Save Plan</button>
+      <div className='d-flex justify-content-center'>
+        <button 
+          className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"} save-button`}
+          onClick={handleSavePlan}>
+            Save Plan
+        </button>
+      </div>
     </div>
   );
 };

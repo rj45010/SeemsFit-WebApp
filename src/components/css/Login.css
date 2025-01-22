@@ -1,4 +1,11 @@
-.loginbg {
+.loginbg-light {
+  background: linear-gradient(300deg, #ff5e62 35%, #ff9966 65%, #ffcc00 100%);
+  background-size: 180% 180%;
+  animation: gradient-animation 6s linear infinite;
+  height: 100vh;
+}
+
+.loginbg-dark {
   background: linear-gradient(300deg, #1d8364 35%, #104e63 65%, #1d2b60 100%);
   background-size: 180% 180%;
   animation: gradient-animation 6s linear infinite;
@@ -24,7 +31,7 @@
 }
 
 @media (max-width: 430px) {
-  .loginbg {
+  .loginbg-light, .loginbg-dark {
     background-size: 160% 160%; 
     animation: gradient-animation 4s linear infinite;
   }

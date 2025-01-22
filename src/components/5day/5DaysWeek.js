@@ -27,30 +27,31 @@ const FiveDaysWeek = () => {
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Chest & Triceps",
-        Tuesday: "Back & Biceps",
-        Wednesday: "Rest Day",
-        Thursday: "Shoulder & Triceps",
-        Friday: "Legs & Biceps",
-        Saturday: "Rest day",
-        Sunday: "Cardio & Core",
+        "Day 1": "Chest & Triceps",
+        "Day 2": "Back & Biceps",
+        "Day 3": "Rest Day",
+        "Day 4": "Shoulder & Triceps",
+        "Day 5": "Legs & Biceps",
+        "Day 6": "Rest day",
+        "Day 7": "Cardio & Core",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Chest Press", sets: "4", reps: "8", weight: "" },
           { name: "Triceps Pushdown", sets: "4", reps: "10", weight: "" },
           { name: "Chest Fly", sets: "4", reps: "12", weight: "" },
           { name: "Skull Crusher", sets: "4", reps: "12", weight: "" },
           { name: "Pushups", sets: "4", reps: "Till Failure", weight: "" },
         ],
-        Tuesday: [
+        "Day 2": [
           { name: "Standing Rows", sets: "4", reps: "10", weight: "" },
           { name: "Lat Pulldown", sets: "4", reps: "10", weight: "" },
           { name: "Standing Pullover", sets: "4", reps: "10", weight: "" },
           { name: "Lateral Raises", sets: "4", reps: "10", weight: "" },
           { name: "Bicep Curl", sets: "4", reps: "12", weight: "" },
         ],
-        Thursday: [
+        "Day 3": [],
+        "Day 4": [
           { name: "Shoulder press", sets: "4", reps: "10", weight: "" },
           { name: "Dips", sets: "4", reps: "10", weight: "" },
           { name: "Standing Tricep Kickback", sets: "4", reps: "10", weight: "" },
@@ -58,14 +59,15 @@ const FiveDaysWeek = () => {
           { name: "Reverse flys", sets: "4", reps: "12", weight: "" },
           { name: "Overhead Tricep Extension", sets: "4", reps: "12", weight: "" },
         ],
-        Friday: [
+        "Day 5": [
           { name: "Lunges", sets: "4", reps: "10", weight: "" },
           { name: "Seated Calf Raise", sets: "4", reps: "12", weight: "" },
           { name: "Lying alternating leg curls", sets: "4", reps: "12", weight: "" },
           { name: "Biceps curls", sets: "4", reps: "12", weight: "" },
           { name: "Squats", sets: "4", reps: "12", weight: "" },
         ],
-        Sunday: [
+        "Day 6": [],
+        "Day 7": [
           { name: "Running/Biking/Jumping Rope/Aerobics", sets: "-", reps: "30 Min", weight: "" },
           { name: "Crunches", sets: "4", reps: "12", weight: "" },
           { name: "Mountain climbers", sets: "4", reps: "12", weight: "" },
@@ -73,9 +75,8 @@ const FiveDaysWeek = () => {
           { name: "Bicycle crunches", sets: "4", reps: "12", weight: "" },
           { name: "Glute bridges", sets: "4", reps: "12", weight: "" },
         ],
-        Saturday: [],
       },
-    };
+    };    
 
     try {
       const plansCollection = collection(db, "plans");
@@ -158,11 +159,7 @@ const FiveDaysWeek = () => {
         <br />
         <p>Workout Plan from: <a href="https://hygearfit.com/" target="_blank" rel="noopener noreferrer">www.hygearfit.com</a></p>
         <br />
-        <p><em>Note : Workouts may have been changed slightly.</em></p>
-      </div>
-
-      <div className='d-flex justify-content-center mt-4 mb-4'>
-        <DownloadPDFButton targetId="workout-container" fileName="5DayBeginner.pdf" />
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
 
       <div className='row mt-3 mb-3'>

@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   return (
-    <section className="loginbg">
+    <section className={theme === 'light' ? 'loginbg-light' : 'loginbg-dark'}>
       <div className="container pt-5">
         <div className="login_form">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">

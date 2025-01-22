@@ -1,26 +1,25 @@
 .dropdown-container {
   position: relative;
   display: inline-block;
+  margin-top: 20px;
 }
 
 /* Force static styles for form-select */
 .form-select {
   background-color: #212529 !important;
-  color: white !important;      
+  color: white !important;
 }
 
 .select-plan {
-  padding: 10px;
-  color: white !important;
-  border: none !important;
-  cursor: pointer !important;
+  padding: 10px; 
+  cursor: pointer;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   display: block;
-  box-shadow: 2px 6px 8px black !important;
+  box-shadow: 0 0 3px #212529;
   width: 200px !important;
   max-width: 370px !important;
   text-align: center !important;

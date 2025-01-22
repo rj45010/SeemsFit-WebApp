@@ -39,7 +39,7 @@ const Dropdown = () => {
   return (
     <div className="container dropdown-container" ref={dropdownRef}>
       <br />
-      <h1 className="h1 text-center">Workout Plans</h1>
+      {/* <h1 className="h1 text-center workout-plan">Workout Plans</h1> */}
       {/* Main Menu Toggle */}
       <button className="form-select text-center select-plan" onClick={toggleMainMenu}>
         Browse Plans

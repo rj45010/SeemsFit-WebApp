@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { db, collection, getDocs, auth, deleteDoc, doc, updateDoc } from './firebase';
+import { query, where, limit } from "firebase/firestore";
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,6 +15,69 @@ const MyPlans = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const { theme } = useTheme();
 
+  const convertWeekdaysToDays = (workoutPlan) => {
+    const daysOfWeekMap = {
+      "Monday": "Day 1",
+      "Tuesday": "Day 2",
+      "Wednesday": "Day 3",
+      "Thursday": "Day 4",
+      "Friday": "Day 5",
+      "Saturday": "Day 6",
+      "Sunday": "Day 7",
+    };
+  
+    const newWorkoutPlan = {};
+    for (let day in workoutPlan) {
+      const newDay = daysOfWeekMap[day] || day;
+      newWorkoutPlan[newDay] = workoutPlan[day];
+    }
+    return newWorkoutPlan;
+  };
+
+  const convertDayLabels = (dayLabels) => {
+    const dayLabelsMap = {
+      "Monday": "Day 1",
+      "Tuesday": "Day 2",
+      "Wednesday": "Day 3",
+      "Thursday": "Day 4",
+      "Friday": "Day 5",
+      "Saturday": "Day 6",
+      "Sunday": "Day 7",
+    };
+
+    const updatedDayLabels = {};
+    for (let day in dayLabels) {
+      const newDay = dayLabelsMap[day] || day;
+      updatedDayLabels[newDay] = dayLabels[day];
+    }
+    return updatedDayLabels;
+  };
+
+  const fetchPlans = useCallback(async (userId) => {
+    try {
+      setLoading(true);
+      const plansQuery = query(
+        collection(db, "plans"),
+        where("userId", "==", userId),
+        limit(10)
+      );
+      const querySnapshot = await getDocs(plansQuery);
+      const userPlans = querySnapshot.docs.map((doc) => {
+        const planData = doc.data();
+        const updatedWorkoutPlan = convertWeekdaysToDays(planData.workoutPlan);
+        const updatedDayLabels = convertDayLabels(planData.dayLabels); 
+        return { id: doc.id, ...planData, workoutPlan: updatedWorkoutPlan, dayLabels: updatedDayLabels };
+      });
+  
+      setPlans(userPlans);
+    } catch (error) {
+      console.error("Error fetching plans: ", error);
+      toast.error("Failed to fetch plans.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setIsLoggedIn(!!user);
@@ -26,25 +90,8 @@ const MyPlans = () => {
     });
 
     return () => unsubscribe(); 
-  }, []);
-
-  const fetchPlans = async (userId) => {
-    try {
-      setLoading(true);
-      const querySnapshot = await getDocs(collection(db, 'plans'));
-      const userPlans = querySnapshot.docs
-        .map((doc) => ({ id: doc.id, ...doc.data() }))
-        .filter((plan) => plan.userId === userId);
-
-      setPlans(userPlans);
-    } catch (error) {
-      console.error("Error fetching plans: ", error);
-      toast.error("Failed to fetch plans.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  }, [fetchPlans]);
+  
   const handlePlanSelect = (e) => {
     setSelectedPlanId(e.target.value);
   };
@@ -70,8 +117,8 @@ const MyPlans = () => {
   };
 
   const handleInputResize = (e) => {
-    e.target.style.height = "auto"; // Reset height
-    e.target.style.height = `${e.target.scrollHeight}px`; // Set to scroll height
+    e.target.style.height = "auto";
+    e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
   const saveChanges = async () => {
@@ -135,8 +182,8 @@ const MyPlans = () => {
 
   const selectedPlan = plans.find((plan) => plan.id === selectedPlanId);
 
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
+  const daysOfWeek = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"];
+  
   if (!isLoggedIn) {
     return (
       <div>
@@ -160,18 +207,17 @@ const MyPlans = () => {
 
   return (
     <div id="my-plans-container">
-      {/* <h1 style={{ color: theme === "light" ? "black" : "white" }}>My Workout Plans</h1> */}
       {loading ? (
         <p style={{ color: theme === "light" ? "black" : "white" }}>Loading plans...</p>
       ) : (
         <>
           <div className="custom-dropdown">
             <select 
-              id="plans-dropdown" 
+              id={theme === "light" ? "plans-dropdown-light" : "plans-dropdown-dark"} 
               value={selectedPlanId} 
               onChange={handlePlanSelect} 
             >
-              <option value="" disabled>Your Saved Plans ▼</option>
+              <option className="saved-plan-button" value="" disabled>Saved Plans ▼</option>
               {plans.map((plan) => (
                 <option key={plan.id} value={plan.id}>
                   {plan.planName} - {plan.createdAt ? new Date(plan.createdAt).toLocaleDateString() : "Unknown"}
@@ -183,15 +229,17 @@ const MyPlans = () => {
           {selectedPlan && (
             <div className="plan-container mt-4">
               <h2 style={{ color: theme === "light" || theme === "dark" ? "white" : "initial" }}>{selectedPlan.planName}</h2>
-              {daysOfWeek.map((day) => {
+              {daysOfWeek.map((day, index) => {
                 const dayPlan = selectedPlan.workoutPlan[day];
-                if (dayPlan && dayPlan.length > 0) {
-                  return (
-                    <div key={day} className="day-section">
-                      <h2 className="day-heading">
-                        {day} - {selectedPlan.dayLabels[day] || "Rest Day"}
-                      </h2>
-                      {selectedPlan.dayLabels[day] !== "Rest Day" && (
+                const dayLabel = selectedPlan.dayLabels[day] || `Rest Day`;
+                  if (!dayPlan || dayPlan.length === 0 || dayLabel === "Rest Day") {
+                    return null; 
+                  } 
+                    return (
+                      <div key={day} className="day-section">
+                        <h2 className="day-heading">
+                          {day} - {dayLabel}
+                        </h2>
                         <table className="plans-table">
                           <thead>
                             <tr>
@@ -202,13 +250,13 @@ const MyPlans = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {dayPlan.map((exercise, idx) => (
-                              <tr key={idx}>
-                                <td>{exercise.name}</td>
-                                <td>{exercise.sets}</td>
-                                <td>{exercise.reps}</td>
-                                <td>
-                                  <div className='d-flex justify-content-center'>
+                          {dayPlan.map((exercise, idx) => (
+                            <tr key={idx}>
+                              <td>{exercise.name}</td>
+                              <td>{exercise.sets}</td>
+                              <td>{exercise.reps}</td>
+                              <td>
+                                <div className="d-flex justify-content-center weights">
                                   <textarea
                                     type="text"
                                     value={exercise.weight || ''}
@@ -218,34 +266,32 @@ const MyPlans = () => {
                                     }}
                                     className="editable-weight-input"
                                   />
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                           </tbody>
-                        </table>
-                      )}
-                    </div>
-                  );
-                }
-                return null;
-              })}
-              <div className='row mt-3'>
-                <div className='col'>
-                  <button className="edit-button" onClick={saveChanges}>
-                    Save Changes
-                  </button>
-                </div>
-                <div className='col'>
-                  <button className="del-button" onClick={() => handleDeletePlan(selectedPlan.id)}>
-                    Delete Plan
-                  </button>
+                      </table>
+                      </div>
+                    );
+                  }
+                )}
+                <div className='row mt-3'>
+                  <div className='col'>
+                    <button className="edit-button" onClick={saveChanges}>
+                      Save Changes
+                    </button>
+                  </div>
+                  <div className='col'>
+                    <button className="del-button" onClick={() => handleDeletePlan(selectedPlan.id)}>
+                      Delete Plan
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
       {showOverlay && <div className="overlay active"></div>}
     </div>
   );

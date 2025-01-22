@@ -33,6 +33,7 @@ const PPLWorkout2 = () => {
         Thursday: "Push",
         Friday: "Pull",
         Saturday: "Legs",
+        Sunday: "Rest Day",
       },
       workoutPlan: {
         Monday: [
@@ -73,7 +74,7 @@ const PPLWorkout2 = () => {
         ],
         Sunday: [],
       },
-    };
+    };    
 
     try {
       const plansCollection = collection(db, "plans");
@@ -153,7 +154,7 @@ const PPLWorkout2 = () => {
           ["Calf Raise", "3 Sets", "12 reps"],
         ])}
 
-        <p><em>Note : Workouts may have been changed slightly.</em></p>
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
 
       <div className='row mt-3 mb-3'>

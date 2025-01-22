@@ -1,47 +1,62 @@
+.plan-name-input {
+  width: auto;
+  border: none;
+  border-radius: 8px;
+  padding: 6px;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 24px;
+  background-color: #1a1e21;
+}
+
+.plan-name-container-light .plan-name-input {
+  background-color: #f8f9fa; 
+  color: black; 
+}
+
+.plan-name-container-dark .plan-name-input {
+  background-color: #1a1e21;
+  color: white; 
+}
+
+
 .create-plan-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  border-radius: 25%;
-  border-width: 1px;
-  color: rgb(125, 124, 124);
+  border: none;
 }
 
-.create-plan-td {
+.create-plan-td-light {
   padding: 10px;
   text-align: left;
+  background-color: #f8f9fa;
+}
+
+.create-plan-td-dark {
+  padding: 10px;
+  text-align: left;
+  background-color: #1a1e21
 }
 
 .create-plan-td input[type="text"], td input[type="number"] {
   width: auto;
   max-width: 150px;
-  border: 0.6px solid black;
+  border: none;
   border-radius: 6px;
   padding: 5px;
   box-sizing: border-box;
 }
 
 .add-exercise {
-  color: white;
-  background-color: #007bff;
   font-size:medium;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
-  padding: 4px;
   margin-bottom: 6px;
-  box-shadow: 2px 6px 8px black;
 }
 
 .delete-button {
   font-size: 0.9em;
-  color: white;
-  background-color: #c82333;
-  box-shadow: 1px 2px 10px black;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
-  padding: 4px;
 }
 
 .day-container {
@@ -56,7 +71,7 @@
 }
 
 .day-label-input {
-  border: 0.6px solid black;
+  border: 1px solid black;
   border-radius: 6px;
   text-align: center;
   font-size: medium;
@@ -79,23 +94,15 @@
   display: block;
   font-size:medium;
   margin: 20px auto; 
-  padding: 10px; 
-  background-color: white;
-  color: black;
-  border: none;
-  border-radius: 5px;
+  padding: 4px 6px 4px 6px; 
   cursor: pointer;
   margin-bottom: 33px;
-  box-shadow: 2px 6px 8px black;
 }
 
-.plan-name-input {
-  width: auto;
-  border: 0.6px solid black;
-  border-radius: 6px;
-  padding: 5px;
-  box-sizing: border-box;
-  text-align: center;
-  margin-top: 24px;
+input::placeholder {
+  color: black !important;
 }
 
+body.dark input::placeholder {
+  color: white !important;
+}

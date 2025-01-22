@@ -27,16 +27,16 @@ const PPLWorkout1 = () => {
       userId: user.uid,
       createdAt: new Date().toISOString(),
       dayLabels: {
-        Monday: "Push",
-        Tuesday: "Rest Day",
-        Wednesday: "Pull",
-        Thursday: "Rest Day",
-        Friday: "Legs",
-        Saturday: "Rest Day",
-        Sunday: "Rest Day",
+        "Day 1": "Push",
+        "Day 2": "Rest Day",
+        "Day 3": "Pull",
+        "Day 4": "Rest Day",
+        "Day 5": "Legs",
+        "Day 6": "Rest Day",
+        "Day 7": "Rest Day",
       },
       workoutPlan: {
-        Monday: [
+        "Day 1": [
           { name: "Bench Press", sets: "3", reps: "6-8", weight: "" },
           { name: "Seated Shoulder Press", sets: "3", reps: "8-12", weight: "" },
           { name: "Incline Dumbbell Press", sets: "3", reps: "8-12", weight: "" },
@@ -44,7 +44,7 @@ const PPLWorkout1 = () => {
           { name: "Triceps Dumbbell Extension", sets: "3", reps: "8-12", weight: "" },
           { name: "Triceps Rope Pressdown", sets: "3", reps: "8-12", weight: "" },
         ],
-        Wednesday: [
+        "Day 3": [
           { name: "Lat Pulldown", sets: "3", reps: "8-12", weight: "" },
           { name: "Bent Over Row", sets: "3", reps: "8-12", weight: "" },
           { name: "Face Pulls", sets: "3", reps: "8-12", weight: "" },
@@ -52,19 +52,20 @@ const PPLWorkout1 = () => {
           { name: "Bicep Barbell Curls", sets: "3", reps: "8-12", weight: "" },
           { name: "Hammer Curls", sets: "3", reps: "8-12", weight: "" },
         ],
-        Friday: [
+        "Day 5": [
           { name: "Squat Barbell", sets: "3", reps: "8-12", weight: "" },
           { name: "Leg Press", sets: "3", reps: "8-12", weight: "" },
           { name: "Leg Extension", sets: "3", reps: "8-12", weight: "" },
           { name: "Seated Leg Curl", sets: "3", reps: "8-12", weight: "" },
           { name: "Standing Calf Raises", sets: "3", reps: "8-12", weight: "" },
         ],
-        Tuesday: [],
-        Thursday: [],
-        Saturday: [],
-        Sunday: [],
+        "Day 2": [],
+        "Day 4": [],
+        "Day 6": [],
+        "Day 7": [],
       },
     };
+
 
     try {
       const plansCollection = collection(db, "plans");
@@ -133,7 +134,7 @@ const PPLWorkout1 = () => {
         <p>
           Workout Plan from : <a href="https://www.hevyapp.com/">www.hevyapp.com</a>
         </p>
-        <p><em>Note : Workouts may have been changed slightly.</em></p>
+        <p><em>Note: Workouts may have been changed slightly.</em></p>
       </div>
       
       <div className='row mt-3 mb-3'>
