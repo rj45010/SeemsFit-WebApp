@@ -28,7 +28,6 @@ h1 {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: transparent;
   padding: 6px 10px;
   font-size: 16px;
   width: 100%;
@@ -38,6 +37,7 @@ h1 {
   overflow-wrap: break-word;
   transition: border-color 0.3s ease, background-color 0.3s ease;
   display: block;
+  text-align: center;
 }
 
 .custom-dropdown::after {
@@ -50,6 +50,12 @@ h1 {
   pointer-events: none;
 }
 
+.custom-dropdown option {
+  background-color: #282c34;
+  color: white;
+  padding: 10px;
+}
+
 #plans-dropdown-light {
   background-color: #f8f9fa;
   color: black;
@@ -58,6 +64,7 @@ h1 {
   border-radius: 12px;
   box-shadow: 0 0 3px #222529;
 }
+
 #plans-dropdown-dark {
   background-color: #222529;
   color: #f8f9fa;
@@ -130,8 +137,9 @@ h1 {
   background-color: #e9ecef;
 }
 
+/* Editable Weights */
 .weights {
- padding: 10px;
+  padding: 10px;
 }
 
 .editable-weight-input {
@@ -157,6 +165,7 @@ textarea:focus {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+/* Button styles for saved plans */
 .del-button {
   font-size: 1rem;
   color: white;
@@ -177,13 +186,6 @@ textarea:focus {
   border-radius: 6px;
   cursor: pointer;
   padding: 10px;
-}
-
-#exercise-container p {
-  text-align: center;
-  padding-bottom: 20px;
-  font-size: 15px;
-  color: #f8f9fa;
 }
 
 .saved-plan-button {
@@ -234,27 +236,6 @@ textarea:focus {
   z-index: 1001;
 }
 
-.toast-button-yes,
-.toast-button-no {
-  width: 42px;
-  color: white;
-  background-color: #007bff;
-  font-size:small;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 6px;
-}
-
-.toast-button-yes {
-  margin-right: 25%;
-  margin-left: 17%;
-}
-.toast-button-no {
-  background-color: #dc3545;
-  margin-left: 25%;
-}
-
 /* Overlay style */
 .overlay {
   position: fixed;
@@ -273,7 +254,6 @@ textarea:focus {
   display: block; 
   pointer-events: all; 
 }
-
 
 /* Responsive design */
 @media (max-width: 768px) {

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { PrivateRoute } from './utils/authUtils';
 import './App.css';
-import loadingImage from './assests/loading_img.JPG';
+import loadingImage from './assests/loading_img_light.jpg';
 import HeaderWithSidebar from './components/Navbar';
 import EmptyHeader from './components/EmptyHeader';
 import Footer from './components/Footer';

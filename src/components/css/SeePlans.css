@@ -1,7 +1,9 @@
 .dropdown-container {
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 /* Force static styles for form-select */
@@ -13,7 +15,6 @@
 .select-plan {
   padding: 10px; 
   cursor: pointer;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,14 +28,12 @@
 
 /* Main menu */
 .dropdown-menu {
-  display: none;
-  position: absolute;
   background-color: #1a1e21 !important;
   color: white !important;
   width: auto;
   max-width: 370px;
   left: 50%;
-  top: 60%;
+  top: 100%;
   transform: translateX(-50%);
   box-shadow: 4px 8px 12px black !important;
   white-space: nowrap !important;
@@ -42,7 +41,9 @@
 }
 
 .dropdown-menu.show {
-  display: block;
+  opacity: 1;
+  height: auto;
+  z-index: 0;
 }
 
 /* Menu items */

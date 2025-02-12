@@ -64,7 +64,7 @@ const Header = () => {
 
   return (
     <div className="fixed">
-      <header className="home-header">
+      <nav className="home-header">
         <button
           className="toggle-button"
           onClick={toggleDropdown}
@@ -87,7 +87,7 @@ const Header = () => {
             <i className="fas fa-sun"></i>
           )}
         </button>
-      </header>
+      </nav>
 
       <div className={`dropdown ${isDropdownOpen ? "open" : ""}`}>
         <ul>

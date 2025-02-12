@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './css/CreatePlan.css';
 import {useTheme} from './ThemeProvider';
+// import exerciseOptions from './ExerciseList';
 
 const WorkoutDay = ({ day, exercises, dayLabel, handleDayLabelChange, handleExerciseChange, handleAddExercise, handleDeleteExercise }) => {
   const { theme } = useTheme();

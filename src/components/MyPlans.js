@@ -96,6 +96,27 @@ const MyPlans = () => {
     setSelectedPlanId(e.target.value);
   };
 
+  const handleRepsChange = (day, exerciseIndex, newReps) => {
+    setPlans((prevPlans) =>
+      prevPlans.map((plan) =>
+        plan.id === selectedPlanId
+          ? {
+              ...plan,
+              workoutPlan: {
+                ...plan.workoutPlan,
+                [day]: plan.workoutPlan[day].map((exercise, idx) =>
+                  idx === exerciseIndex
+                    ? { ...exercise, reps: newReps }
+                    : exercise
+                ),
+              },
+            }
+          : plan
+      )
+    );
+  };
+  
+
   const handleWeightChange = (day, exerciseIndex, newWeight) => {
     setPlans((prevPlans) =>
       prevPlans.map((plan) =>
@@ -254,7 +275,19 @@ const MyPlans = () => {
                             <tr key={idx}>
                               <td>{exercise.name}</td>
                               <td>{exercise.sets}</td>
-                              <td>{exercise.reps}</td>
+                              <td>
+                              <div className="d-flex justify-content-center reps">
+                                <textarea
+                                  type="text"
+                                  value={exercise.reps || ''}
+                                  onChange={(e) => {
+                                    handleRepsChange(day, idx, e.target.value);
+                                    handleInputResize(e);
+                                  }}
+                                  className="editable-weight-input"
+                                />
+                              </div>
+                              </td>
                               <td>
                                 <div className="d-flex justify-content-center weights">
                                   <textarea

@@ -54,11 +54,6 @@
       "sizes": "192x192",
       "type": "image/png",
       "density": "4.0"
-    },
-    {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/JPG"
     }
   ]
 }
