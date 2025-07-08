@@ -8,7 +8,7 @@ import {
   doc,
   updateDoc,
 } from "../components/firebase";
-import { query, where, limit } from "firebase/firestore";
+import {query, where, limit, addDoc} from "firebase/firestore";
 
 const ApiContext = createContext(null);
 
@@ -64,6 +64,31 @@ const ApiWrapper = ({ children }) => {
       throw new Error(e + "Something went wrong");
     }
   };
+
+  const addDocument = async (data,table)=>{
+    if(!isLogin()){
+        throw new Error("User needs to Log in again");
+    }
+    try{
+        await addDoc(collection(db,table), data);
+    }catch(e){
+        throw new Error("Something Went wrong while adding Plan"+e)
+    }
+  }
+
+  const fetchDocument = async(planName,table)=>{
+     if (!isLogin()) {
+      throw new Error("User not logged in");
+    }
+
+    try{
+        const plansCollection = collection(db,table);
+      const q = query(plansCollection, where("planName", "==", planName), where("userId", "==", user.uid));
+      return await getDocs(q);
+    }catch(e){
+        throw new Error(e + "Something went wrong");
+    }
+  }
   const contextValue = {
     fetchDocs,
     user,
@@ -72,7 +97,9 @@ const ApiWrapper = ({ children }) => {
     loading,
     updateDocument,
     setLoading,
-    deleteDocument
+    deleteDocument,
+    addDocument,
+    fetchDocument
   };
 
   return (
