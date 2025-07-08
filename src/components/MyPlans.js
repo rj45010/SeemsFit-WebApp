@@ -1,19 +1,22 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { db, collection, getDocs, auth, deleteDoc, doc, updateDoc } from './firebase';
-import { query, where, limit } from "firebase/firestore";
+import { useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './css/MyPlans.css';
 import {useTheme} from './ThemeProvider';
+import useTrackWoroutService from "../services/usetrackWorkOutService";
+import { useContext } from 'react';
+import { ApiContext } from '../context/apiContext';
+
 
 const MyPlans = () => {
   const [plans, setPlans] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedPlanId, setSelectedPlanId] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   const { theme } = useTheme();
+  const{getplans,updatePlanData,deletePlan}= useTrackWoroutService();
+  const context = useContext(ApiContext);
+  const{loading,isLoggedIn}=context
 
   const convertWeekdaysToDays = (workoutPlan) => {
     const daysOfWeekMap = {
@@ -52,45 +55,16 @@ const MyPlans = () => {
     }
     return updatedDayLabels;
   };
-
-  const fetchPlans = useCallback(async (userId) => {
-    try {
-      setLoading(true);
-      const plansQuery = query(
-        collection(db, "plans"),
-        where("userId", "==", userId),
-        limit(10)
-      );
-      const querySnapshot = await getDocs(plansQuery);
-      const userPlans = querySnapshot.docs.map((doc) => {
-        const planData = doc.data();
-        const updatedWorkoutPlan = convertWeekdaysToDays(planData.workoutPlan);
-        const updatedDayLabels = convertDayLabels(planData.dayLabels); 
-        return { id: doc.id, ...planData, workoutPlan: updatedWorkoutPlan, dayLabels: updatedDayLabels };
-      });
-  
-      setPlans(userPlans);
-    } catch (error) {
-      console.error("Error fetching plans: ", error);
-      toast.error("Failed to fetch plans.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setIsLoggedIn(!!user);
-      if (user) {
-        fetchPlans(user.uid);
-      } else {
-        setPlans([]);
-        setLoading(false);
-      }
-    });
-
-    return () => unsubscribe(); 
-  }, [fetchPlans]);
+    (async () => {
+    const data = await getplans();
+    if (Array.isArray(data)) {
+      setPlans(data);
+    } else {
+      setPlans([]); 
+    }
+  })();
+  }, []);
   
   const handlePlanSelect = (e) => {
     setSelectedPlanId(e.target.value);
@@ -145,14 +119,8 @@ const MyPlans = () => {
   const saveChanges = async () => {
     const selectedPlan = plans.find((plan) => plan.id === selectedPlanId);
     if (selectedPlan) {
-      try {
-        const planRef = doc(db, 'plans', selectedPlan.id);
-        await updateDoc(planRef, { workoutPlan: selectedPlan.workoutPlan });
-        toast.success("Workout plan updated successfully!", { autoClose: 2000 });
-      } catch (error) {
-        console.error("Error updating plan: ", error);
-        toast.error("Failed to save changes.");
-      }
+       const data = { workoutPlan: selectedPlan.workoutPlan }
+       updatePlanData(selectedPlan.id,data)
     }
   };
 
@@ -165,18 +133,11 @@ const MyPlans = () => {
         <div>
           <button className='toast-button-yes'
             onClick={async () => {
-              try {
-                await deleteDoc(doc(db, 'plans', planId));
-                setPlans(plans.filter((plan) => plan.id !== planId));
-                toast.success("Plan deleted successfully!", { autoClose: 2000 });
-                window.location.reload();
-              } catch (error) {
-                console.error("Error deleting plan: ", error);
-                toast.error("There was an error deleting the plan.");
-              } finally {
-                toast.dismiss(toastId); 
-                setShowOverlay(false); 
-              }
+              await deletePlan(planId)
+              setPlans(plans.filter((plan) => plan.id !== planId));
+              toast.dismiss(toastId); 
+              setShowOverlay(false); 
+              window.location.reload();
             }}>
             Yes
           </button>

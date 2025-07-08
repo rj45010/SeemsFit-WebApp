@@ -34,6 +34,7 @@ import PPLWorkout2 from './components/6day/PPL6day';
 import HomeLoggedIn from './components/HomeLoggedinPage';
 import ForgotPassword from "./components/ForgotPassword";
 import { Navigate } from 'react-router-dom';
+import {ApiWrapper} from './context/apiContext';
 
 const hideFooterRoutes = [
   '/my-plan',
@@ -63,6 +64,7 @@ function App() {
   
 
   return (
+    <ApiWrapper>
     <Router>
       <div>
         <ScrollToTop />
@@ -72,6 +74,7 @@ function App() {
         <ToastContainer />
       </div>
     </Router>
+    </ApiWrapper>
   );
 }
 
