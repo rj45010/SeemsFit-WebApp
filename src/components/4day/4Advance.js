@@ -1,22 +1,23 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/SeePlans.css';
 import Dropdown from '../plans/Dropdown';
 import renderWorkoutSection from '../plans/RenderWorkout';
 import DownloadPDFButton from '../plans/DownloadPDF';
-import { db, auth } from '../firebase';
-import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { useTheme } from '../ThemeProvider';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useContext } from 'react';
+import { ApiContext } from '../../context/apiContext';
+import useTrackWoroutService from '../../services/usetrackWorkOutService';
 
 const FourDaysWeek2 = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const { getSinglePlan, startWorkoutPlan } = useTrackWoroutService();
+  const { isLoggedIn, user } = useContext(ApiContext);
 
   const startWorkout = async () => {
-    const user = auth.currentUser;
-    if (!user) {
+    if (!isLoggedIn) {
       navigate('/login', { state: { from: '/four-days-week2' } });
       return;
     }
@@ -79,23 +80,22 @@ const FourDaysWeek2 = () => {
       },
     };    
 
-    try {
-      const plansCollection = collection(db, "plans");
-      const q = query(plansCollection, where("planName", "==", planName), where("userId", "==", user.uid));
-      const querySnapshot = await getDocs(q);
+       try {
+         // Check if the plan already exists
+         const querySnapshot = await getSinglePlan(planName);
+         if (!querySnapshot.empty) {
+           // Plan already exists
+           toast.info("Plan already exists!");
+           return;
+         }
 
-      if (!querySnapshot.empty) {
-        toast.info("Plan already exists!");
-        return;
-      }
-
-      await addDoc(plansCollection, workoutDetails);
-      toast.success("Workout plan saved successfully!");
-      setTimeout(() => navigate('/my-plan'), 1000);
-    } catch (error) {
-      console.error("Error saving workout:", error);
-      toast.error("Failed to save workout. Please try again.");
-    }
+         // // Save the new plan
+         await startWorkoutPlan(workoutDetails);
+         setTimeout(() => navigate("/my-plan"), 1000);
+       } catch (error) {
+         console.error("Error saving workout:", error);
+         toast.error("Failed to save workout. Please try again.");
+       }
   };
 
   return (
